@@ -1,0 +1,132 @@
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f5ff 0%, #ffffff 50%, #e6fbff 100%);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.brand-logo {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4f46e5;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.brand-logo i {
+    font-size: 2rem;
+}
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.form-control {
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s;
+}
+
+.form-control:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.btn-primary {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+}
+
+.btn-primary:hover {
+    background-color: #4338ca;
+    border-color: #4338ca;
+}
+
+.btn-outline-secondary {
+    border-color: #e5e7eb;
+    color: #374151;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f9fafb;
+    border-color: #e5e7eb;
+    color: #111827;
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.divider span {
+    position: relative;
+    background: white;
+    padding: 0 1rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.oauth-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+}
+
+.password-strength {
+    margin-top: 0.5rem;
+}
+
+.progress {
+    background-color: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: #4f46e5;
+    transition: width 0.3s ease;
+}
+
+.toggle-password {
+    border-start-end-radius: 0.5rem;
+    border-end-end-radius: 0.5rem;
+}
+
+@media (max-width: 576px) {
+    .brand-logo {
+        position: static;
+        justify-content: center;
+        margin: 2rem 0;
+    }
+
+    .auth-box {
+        padding: 1.5rem;
+    }
+}
