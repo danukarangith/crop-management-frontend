@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> Green-nexus</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="">
+    <meta name="author" content="Phoenixcoded" />
+    <!-- Favicon icon -->
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/pages/style/vehicle.css">
+	 <!-- vendor css -->
+	 <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+    /* Modal Form Styling */
+.modal-content {
+    max-width: 100%; /* Maximize the width to fill the screen */
+    width: 600px;  /* Set a fixed width, you can adjust this to your preference */
+    margin: 0 auto;
+    padding: 15px;
+}
+
+</style>
+ 
+     
+
+	 
+     
+</head>
+
+
+
+<body class="">
+	<!-- [ Pre-loader ] start -->
+	<div class="loader-bg">
+		<div class="loader-track">
+			<div class="loader-fill"></div>
+		</div>
+	</div>
+	<!-- [ Pre-loader ] End -->
+	<!-- [ navigation menu ] start -->
+	<nav class="pcoded-navbar  ">
+		<div class="navbar-wrapper  ">
+			<div class="navbar-content scroll-div " >
+				
+				<div class="">
+					<div class="main-menu-header">
+						<img class="img-radius" src="/assets/images/user/avatar-2.jpg" alt="User-Profile-Image">
+						<div class="user-details">
+							<span>Danuka Rangith</span>
+							<div id="more-details">Welcome Back !<i class="fa fa-chevron-down m-l-5"></i></div>
+						</div>
+					</div>
+					<div class="collapse" id="nav-user-link">
+						<ul class="list-unstyled">
+							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
+							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
+							<li class="list-group-item"><a href="auth-normal-sign-in.html"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+						</ul>
+					</div>
+				</div>
+				
+				<ul class="nav pcoded-inner-navbar ">
+					<li class="nav-item pcoded-menu-caption">
+						<label>Navigation</label>
+					</li>
+					<li class="nav-item">
+					    <a href="/index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Log details</span></a>
+					    <ul class="pcoded-submenu">
+					        <li><a href="layout-vertical.html" target="_blank">log Staff</a></li>
+					        <li><a href="layout-horizontal.html" target="_blank">log Field</a></li>
+					        <li><a href="layout-horizontal.html" target="_blank">log Crop</a></li>
+
+					    </ul>
+					</li>
+					<li class="nav-item pcoded-menu-caption">
+						<label>UI Element</label>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-align-justify"></i></span><span class="pcoded-mtext">Field</span></a>
+						<ul class="pcoded-submenu">
+							<li><a href="bc_alert.html">field staff</a></li>
+							 
+						</ul>
+					</li> 
+					 
+					<li class="nav-item">
+					    <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Staff</span></a>
+					</li>
+					<li class="nav-item">
+					    <a href="tbl_bootstrap.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-tree"></i></span><span class="pcoded-mtext">Crop</span></a>
+					</li>
+					 <!-- <li class="nav-item pcoded-menu-caption">
+						<label>Chart & Maps</label>
+					</li> -->
+					<li class="nav-item">
+					    <a href="chart-apex.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-car"></i></span><span class="pcoded-mtext">Vehicle</span></a>
+					</li>
+					<li class="nav-item">
+					    <a href="map-google.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Equipment</span></a>
+					</li>
+					<li class="nav-item pcoded-menu-caption">
+						<label>Pages</label>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Authentication</span></a>
+					    <ul class="pcoded-submenu">
+					        <li><a href="auth-signup.html" target="_blank">Sign up</a></li>
+					        <li><a href="auth-signin.html" target="_blank">Sign in</a></li>
+					        <li><a href="auth-signin.html" target="_blank">User Controll</a></li>
+					    </ul>
+					</li>
+					<li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-cogs"></i></span><span class="pcoded-mtext">Setting</span></a></li>
+					 
+
+				</ul>
+				
+			 
+				
+			</div>
+		</div>
+	</nav>
+	<!-- [ navigation menu ] end -->
+	<!-- [ Header ] start -->
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light header-dark">
+		
+			
+				<div class="m-header">
+					<a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+					<a href="#!" class="b-brand">
+						<!-- ========   change your logo hear   ============ -->
+						<img src="/assets/images/logo.png" alt="" class="logo">
+						<img src="/assets/images/logo-icon.png" alt="" class="logo-thumb">
+					</a>
+					<a href="#!" class="mob-toggler">
+						<i class="feather icon-more-vertical"></i>
+					</a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a href="#!" class="pop-search"><i class="feather icon-search"></i></a>
+							<div class="search-bar">
+								<input type="text" class="form-control border-0 shadow-none" placeholder="Search hear">
+								<button type="button" class="close" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</li>
+						<li class="nav-item">
+							<div class="dropdown">
+								<a class="dropdown-toggle h-drop" href="#" data-toggle="dropdown">
+									Dropdown
+								</a>
+								<div class="dropdown-menu profile-notification ">
+									<ul class="pro-body">
+										<li><a href="user-profile.html" class="dropdown-item"><i class="fas fa-circle"></i> Profile</a></li>
+										<li><a href="email_inbox.html" class="dropdown-item"><i class="fas fa-circle"></i> My Messages</a></li>
+										<li><a href="auth-signin.html" class="dropdown-item"><i class="fas fa-circle"></i> Lock Screen</a></li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					  
+					</ul>
+					<ul class="navbar-nav ml-auto">
+						<li>
+							<div class="dropdown">
+								<a class="dropdown-toggle" href="#" data-toggle="dropdown">
+									<i class="icon feather icon-bell"></i>
+									<span class="badge badge-pill badge-danger">5</span>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right notification">
+									<div class="noti-head">
+										<h6 class="d-inline-block m-b-0">Notifications</h6>
+										<div class="float-right">
+											<a href="#!" class="m-r-10">mark as read</a>
+											<a href="#!">clear all</a>
+										</div>
+									</div>
+									<ul class="noti-body">
+										<li class="n-title">
+											<p class="m-b-0">NEW</p>
+										</li>
+										<li class="notification">
+											<div class="media">
+												<img class="img-radius" src="/assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
+												<div class="media-body">
+													<p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>5 min</span></p>
+													<p>New ticket Added</p>
+												</div>
+											</div>
+										</li>
+										<li class="n-title">
+											<p class="m-b-0">EARLIER</p>
+										</li>
+										<li class="notification">
+											<div class="media">
+												<img class="img-radius" src="/assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
+												<div class="media-body">
+													<p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
+													<p>Prchace New Theme and make payment</p>
+												</div>
+											</div>
+										</li>
+										<li class="notification">
+											<div class="media">
+												<img class="img-radius" src="/assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
+												<div class="media-body">
+													<p><strong>Sara Soudein</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>12 min</span></p>
+													<p>currently login</p>
+												</div>
+											</div>
+										</li>
+										<li class="notification">
+											<div class="media">
+												<img class="img-radius" src="/assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
+												<div class="media-body">
+													<p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+													<p>Prchace New Theme and make payment</p>
+												</div>
+											</div>
+										</li>
+									</ul>
+									<div class="noti-footer">
+										<a href="#!">show all</a>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="dropdown drp-user">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<i class="feather icon-user"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right profile-notification">
+									<div class="pro-head">
+										<img src="/assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
+										<span>John Doe</span>
+										<a href="auth-signin.html" class="dud-logout" title="Logout">
+											<i class="feather icon-log-out"></i>
+										</a>
+									</div>
+									<ul class="pro-body">
+										<li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
+										<li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
+										<li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				
+			
+	</header>
+	<!-- [ Header ] end -->
+	
+	
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Sample page</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#!">Sample page</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <!-- [ sample-page ] start -->
+            <div class="col-sm-12">
+                <div class="card">
+
+                    <div class="card-header">
+                        <h1>Vehicle Management</h1>
+                        <div class="card-header-right">
+                            <div class="btn-group card-option">
+                                <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="feather icon-more-horizontal"></i>
+                                </button>
+                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                    <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                                    <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                                    <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
+                                    <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="container mt-5">
+                            <!-- Header Section -->
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2>Vehicle Management System</h2>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#vehicleModal">
+                                    <i class="fas fa-plus me-2"></i>Add Vehicle
+                                </button>
+                            </div>
+                        
+                            <!-- Loading Spinner -->
+                            <div class="text-center" id="loadingSpinner" style="display: none;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        
+                            <!-- Modal -->
+                            <div class="modal fade" id="vehicleModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalTitle">Add Vehicle</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="vehicleForm">
+                                                <!-- Vehicle Code -->
+                                                <div class="mb-3">
+                                                    <label for="vehicleCode" class="form-label">Vehicle Code</label>
+                                                    <input type="text" class="form-control" id="vehicleCode" placeholder="Enter vehicle code" required>
+                                                </div>
+                                                <!-- Fuel Type -->
+                                                <div class="mb-3">
+                                                    <label for="fuelType" class="form-label">Fuel Type</label>
+                                                    <input type="text" class="form-control" id="fuelType" placeholder="Enter fuel type" required>
+                                                </div>
+                                                <!-- Plate Number -->
+                                                <div class="mb-3">
+                                                    <label for="plateNumber" class="form-label">Plate Number</label>
+                                                    <input type="text" class="form-control" id="plateNumber" placeholder="Enter plate number" required>
+                                                </div>
+                                                <!-- Remarks -->
+                                                <div class="mb-3">
+                                                    <label for="remarks" class="form-label">Remarks</label>
+                                                    <textarea class="form-control" id="remarks" rows="3" placeholder="Enter remarks (optional)"></textarea>
+                                                </div>
+                                                <!-- Status -->
+                                                <div class="mb-3">
+                                                    <label for="status" class="form-label">Status</label>
+                                                    <select class="form-control" id="status" required>
+                                                        <option value="">Select Status</option>
+                                                        <option value="ACTIVE">Active</option>
+                                                        <option value="INACTIVE">Inactive</option>
+                                                        <option value="MAINTENANCE">Maintenance</option>
+                                                    </select>
+                                                </div>
+                                                <!-- Category -->
+                                                <div class="mb-3">
+                                                    <label for="category" class="form-label">Vehicle Category</label>
+                                                    <input type="text" class="form-control" id="category" placeholder="Enter vehicle category" required>
+                                                </div>
+                                                <!-- Staff ID -->
+                                                <div class="mb-3">
+                                                    <label for="staffId" class="form-label">Staff ID</label>
+                                                    <input type="text" class="form-control" id="staffId" placeholder="Enter staff ID" required>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="saveButton">Save Vehicle</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <!-- Table Section -->
+                            <div class="table-responsive mt-4">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Vehicle Code</th>
+                                            <th>Fuel Type</th>
+                                            <th>Plate Number</th>
+                                            <th>Remarks</th>
+                                            <th>Status</th>
+                                            <th>Category</th>
+                                            <th>Staff ID</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="vehicleTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+
+					</div>
+                </div>
+            </div>
+            <!-- [ sample-page ] end -->
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</div>
+
+
+ 
+    <!-- Required Js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+	 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script src="/pages/js/vehicle.js"></script>
+    <script src="/assets/js/vendor-all.min.js"></script>
+    <script src="/assets/js/plugins/bootstrap.min.js"></script>
+    <script src="/assets/js/pcoded.min.js"></script>
+
+
+
+</body>
+
+</html>

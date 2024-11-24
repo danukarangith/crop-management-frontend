@@ -1,0 +1,196 @@
+ 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+/* Header Section */
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #343a40;
+}
+
+.btn {
+    background-color: #28a745;
+    color: white;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+/* Modal Styling */
+.modal-content {
+    border-radius: 8px;
+    border: none;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.modal-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1rem;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #007bff;
+}
+
+.btn-close {
+    background: transparent;
+    border: none;
+    color: #007bff;
+    font-size: 1.25rem;
+}
+
+/* Form Styling */
+.form-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    width: 100%;
+    margin-top: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Select Dropdown Styling */
+select.form-control {
+    appearance: none;
+    padding: 8px 12px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.95rem;
+}
+
+/* Table Styling */
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+.table-light {
+    background-color: #f8f9fa;
+}
+
+.table th, .table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Modal Footer Buttons */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-footer .btn {
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.modal-footer .btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #0069d9;
+}
+
+/* Spinner Centering */
+#loadingSpinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+/* Compact Layout */
+.form-control {
+    height: 35px;
+    font-size: 0.95rem;
+}
+
+textarea.form-control {
+    height: 90px; /* Reduce height of textareas */
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.modal-footer {
+    padding-top: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+
+    .table th, .table td {
+        padding: 8px;
+    }
+}
