@@ -1,7 +1,28 @@
 const API_URL = 'http://localhost:8080/api/v1/vehicles';
-const modal = new bootstrap.Modal(document.getElementById('vehicleModal'));
 let isEditing = false;
 let currentVehicleCode = null;
+
+
+const openModal = document.getElementById("openModal");
+const closeModal = document.querySelectorAll(".close-modal, #closeModal");
+const modal = document.getElementById("vehicleModal");
+
+openModal.addEventListener("click", () => {
+    modal.style.display = "flex";
+});
+
+closeModal.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+});
+
+window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
 
 // Show/hide loading spinner
 function toggleLoading(show) {
