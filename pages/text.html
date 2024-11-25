@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5f6fa;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --text-color: #2c3e50;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .button.primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .button.primary:hover {
+            background-color: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .button.secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .button.secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: white;
+            margin: 50px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 20px;
+            border-top: 2px solid var(--secondary-color);
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        thead tr {
+            background-color: var(--secondary-color);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .loading-spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1100;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--secondary-color);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .edit-btn {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus + label,
+        .form-group select:focus + label,
+        .form-group textarea:focus + label {
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover {
+            border-color: #b3d4fc;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        /* Add highlight effect for active input */
+        .form-group.active label {
+            color: var(--primary-color);
+        }
+
+        .form-group.active input,
+        .form-group.active select,
+        .form-group.active textarea {
+            border-color: var(--primary-color);
+            background-color: #f8f9ff;
+        }
+
+        /* Table hover effects */
+        tbody tr {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f7ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+            display: none;
+            pointer-events: none;
+            max-width: 200px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Add styles for input validation */
+        .form-group input:invalid,
+        .form-group select:invalid {
+            border-color: var(--danger-color);
+        }
+
+        .form-group .validation-message {
+            color: var(--danger-color);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group input:invalid + .validation-message {
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Vehicle Management System</h1>
+            <button class="button primary" id="openModal">+ Add Vehicle</button>
+        </header>
+
+        <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+        <div class="modal" id="vehicleModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add Vehicle</h2>
+                    <button class="close-modal" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="vehicleForm">
+                        <div class="form-group">
+                            <label for="vehicleCode">Vehicle Code</label>
+                            <input type="text" id="vehicleCode" placeholder="Enter vehicle code" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fuelType">Fuel Type</label>
+                            <input type="text" id="fuelType" placeholder="Enter fuel type" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="plateNumber">Plate Number</label>
+                            <input type="text" id="plateNumber" placeholder="Enter plate number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="remarks">Remarks</label>
+                            <textarea id="remarks" rows="3" placeholder="Optional remarks"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status" required>
+                                <option value="">Select Status</option>
+                                <option value="ACTIVE">Active</option>
+                                <option value="INACTIVE">Inactive</option>
+                                <option value="MAINTENANCE">Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <input type="text" id="category" placeholder="Enter category" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="staffId">Staff ID</label>
+                            <input type="text" id="staffId" placeholder="Enter staff ID" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="button secondary close-modal">Cancel</button>
+                    <button class="button primary" id="saveButton">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vehicle Code</th>
+                        <th>Fuel Type</th>
+                        <th>Plate Number</th>
+                        <th>Remarks</th>
+                        <th>Status</th>
+                        <th>Category</th>
+                        <th>Staff ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="vehicleTableBody">
+                    <!-- Dynamic Content -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.all.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('vehicleModal');
+            const openModalBtn = document.getElementById('openModal');
+            const closeModalBtns = document.querySelectorAll('.close-modal');
+            const saveButton = document.getElementById('saveButton');
+            const vehicleForm = document.getElementById('vehicleForm');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+
+
+
+            const formFields = [
+                'vehicleCode',
+                'fuelType',
+                'plateNumber',
+                'remarks',
+                'status',
+                'category',
+                'staffId'
+            ];
+
+            // Add keyboard navigation
+            formFields.forEach((fieldId, index) => {
+                const field = document.getElementById(fieldId);
+                
+                field.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        
+                        // If it's the last field and all fields are valid, save the form
+                        if (index === formFields.length - 1 && vehicleForm.checkValidity()) {
+                            saveVehicle();
+                            return;
+                        }
+                        
+                        // Move to next field
+                        const nextField = document.getElementById(formFields[index + 1]);
+                        if (nextField) {
+                            nextField.focus();
+                        }
+                    }
+                });
+
+                // Add focus and blur event listeners for styling
+                field.addEventListener('focus', () => {
+                    field.parentElement.classList.add('active');
+                });
+
+                field.addEventListener('blur', () => {
+                    field.parentElement.classList.remove('active');
+                });
+            });
+
+            // Function to create tooltip
+            function createTooltip(content) {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = content;
+                document.body.appendChild(tooltip);
+                return tooltip;
+            }
+
+            // Enhance table row hover effects
+            function enhanceTableRows() {
+                const rows = document.querySelectorAll('#vehicleTableBody tr');
+                const tooltip = createTooltip('');
+
+                rows.forEach(row => {
+                    row.addEventListener('mouseenter', (e) => {
+                        const vehicleData = {
+                            'Vehicle Code': row.cells[0].textContent,
+                            'Fuel Type': row.cells[1].textContent,
+                            'Plate Number': row.cells[2].textContent,
+                            'Status': row.cells[4].textContent
+                        };
+
+                        const tooltipContent = Object.entries(vehicleData)
+                            .map(([key, value]) => `${key}: ${value}`)
+                            .join('\n');
+
+                        tooltip.textContent = tooltipContent;
+                        tooltip.style.display = 'block';
+                        
+                        // Position tooltip
+                        const rowRect = row.getBoundingClientRect();
+                        tooltip.style.top = `${rowRect.top - tooltip.offsetHeight - 10}px`;
+                        tooltip.style.left = `${rowRect.left + (rowRect.width / 2) - (tooltip.offsetWidth / 2)}px`;
+                    });
+
+                    row.addEventListener('mouseleave', () => {
+                        tooltip.style.display = 'none';
+                    });
+
+                    // Update tooltip position on mouse move
+                    row.addEventListener('mousemove', (e) => {
+                        tooltip.style.left = `${e.pageX - tooltip.offsetWidth / 2}px`;
+                        tooltip.style.top = `${e.pageY - tooltip.offsetHeight - 10}px`;
+                    });
+                });
+            }
+
+            // Enhance renderTable function
+            function renderTable() {
+                const tableBody = document.getElementById('vehicleTableBody');
+                tableBody.innerHTML = '';
+
+                vehicles.forEach(vehicle => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${vehicle.vehicleCode}</td>
+                        <td>${vehicle.fuelType}</td>
+                        <td>${vehicle.plateNumber}</td>
+                        <td>${vehicle.remarks}</td>
+                        <td>${vehicle.status}</td>
+                        <td>${vehicle.category}</td>
+                        <td>${vehicle.staffId}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="edit-btn">Edit</button>
+                                <button class="delete-btn">Delete</button>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                enhanceTableRows();
+            }
+
+            // Form validation feedback
+            function showValidationMessage(field, message) {
+                const validationMessage = field.parentElement.querySelector('.validation-message');
+                if (validationMessage) {
+                    validationMessage.textContent = message;
+                    validationMessage.style.display = 'block';
+                }
+            }
+
+            formFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                field.addEventListener('invalid', (e) => {
+                    e.preventDefault();
+                    showValidationMessage(field, field.validationMessage);
+                });
+
+                field.addEventListener('input', () => {
+                    if (field.validity.valid) {
+                        const validationMessage = field.parentElement.querySelector('.validation-message');
+                        if (validationMessage) {
+                            validationMessage.style.display = 'none';
+                        }
+                    }
+                });
+            });
+
+            // Sample data for demonstration
+            let vehicles = [
+                {
+                    vehicleCode: 'VH001',
+                    fuelType: 'Petrol',
+                    plateNumber: 'ABC123',
+                    remarks: 'Good condition',
+                    status: 'ACTIVE',
+                    category: 'Sedan',
+                    staffId: 'ST001'
+                }
+            ];
+
+            function openModal() {
+                modal.style.display = 'block';
+                vehicleForm.reset();
+            }
+
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+
+            function showLoading() {
+                loadingSpinner.style.display = 'block';
+            }
+
+            function hideLoading() {
+                loadingSpinner.style.display = 'none';
+            }
+
+            function renderTable() {
+                const tableBody = document.getElementById('vehicleTableBody');
+                tableBody.innerHTML = '';
+
+                vehicles.forEach(vehicle => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${vehicle.vehicleCode}</td>
+                        <td>${vehicle.fuelType}</td>
+                        <td>${vehicle.plateNumber}</td>
+                        <td>${vehicle.remarks}</td>
+                        <td>${vehicle.status}</td>
+                        <td>${vehicle.category}</td>
+                        <td>${vehicle.staffId}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="edit-btn">Edit</button>
+                                <button class="delete-btn">Delete</button>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+
+            function saveVehicle() {
+                const formData = {
+                    vehicleCode: document.getElementById('vehicleCode').value,
+                    fuelType: document.getElementById('fuelType').value,
+                    plateNumber: document.getElementById('plateNumber').value,
+                    remarks: document.getElementById('remarks').value,
+                    status: document.getElementById('status').value,
+                    category: document.getElementById('category').value,
+                    staffId: document.getElementById('staffId').value
+                };
+
+                showLoading();
+
+                // Simulate API call
+                setTimeout(() => {
+                    hideLoading();
+                    
+                    if (Math.random() > 0.5) { // Simulate success/error randomly
+                        vehicles.push(formData);
+                        renderTable();
+                        closeModal();
+                        
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Vehicle has been added successfully',
+                            icon: 'success',
+                            confirmButtonColor: '#4a90e2'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Something went wrong while saving the vehicle',
+                            icon: 'error',
+                            confirmButtonColor: '#4a90e2'
+                        });
+                    }
+                }, 1000);
+            }
+
+            // Event Listeners
+            openModalBtn.addEventListener('click', openModal);
+            closeModalBtns.forEach(btn => btn.addEventListener('click', closeModal));
+            saveButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (vehicleForm.checkValidity()) {
+                    saveVehicle();
+                } else {
+                    Swal.fire({
+                        title: 'Validation Error!',
+                        text: 'Please fill in all required fields',
+                        icon: 'warning',
+                        confirmButtonColor: '#4a90e2'
+                    });
+                }
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Initial render
+            renderTable();
+        });
+    </script>
+</body>
+</html>
