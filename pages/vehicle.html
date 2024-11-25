@@ -11,25 +11,21 @@
     <meta name="author" content="Phoenixcoded" />
     <!-- Favicon icon -->
     <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"> -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/pages/style/vehicle.css">
 	 <!-- vendor css -->
 	 <link rel="stylesheet" href="/assets/css/style.css">
     <style>
     /* Modal Form Styling */
-.modal-content {
-    max-width: 100%; /* Maximize the width to fill the screen */
-    width: 600px;  /* Set a fixed width, you can adjust this to your preference */
-    margin: 0 auto;
-    padding: 15px;
+	#vehicleModal {
+    z-index: 999; /* Make sure this is below SweetAlert's z-index */
 }
+ 
 
 </style>
  
      
-
+ 
 	 
      
 </head>
@@ -294,7 +290,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h1>Vehicle Management</h1>
+                        <!-- <h1>Vehicle Management</h1> -->
                         <div class="card-header-right">
                             <div class="btn-group card-option">
                                 <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -311,68 +307,66 @@
                     </div>
                     <div class="card-body">
 						<div class="container">
-							<!-- Header Section -->
-							<div class="header">
-								<h2>Vehicle Management System</h2>
-								<button class="btn" id="openModal">Add Vehicle</button>
-							</div>
+							<header class="header">
+								<h1>Vehicle Manage Window</h1>
+								<button class="button primary" id="openModal">+ Add Vehicle</button>
+							</header>
 					
-							<!-- Loading Spinner -->
 							<div class="loading-spinner" id="loadingSpinner" style="display: none;">
-								Loading...
+								<div class="spinner"></div>
+								<p>Loading...</p>
 							</div>
 					
-							<!-- Modal -->
 							<div class="modal" id="vehicleModal">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h3>Add Vehicle</h3>
-										<span class="close" id="closeModal">&times;</span>
+										<h2>Add Vehicle</h2>
+										<button class="close-modal" id="closeModal">&times;</button>
 									</div>
 									<div class="modal-body">
 										<form id="vehicleForm">
-											<!-- Vehicle Code -->
-											<label for="vehicleCode">Vehicle Code</label>
-											<input type="text" id="vehicleCode" placeholder="Enter vehicle code" required>
-					
-											<!-- Fuel Type -->
-											<label for="fuelType">Fuel Type</label>
-											<input type="text" id="fuelType" placeholder="Enter fuel type" required>
-					
-											<!-- Plate Number -->
-											<label for="plateNumber">Plate Number</label>
-											<input type="text" id="plateNumber" placeholder="Enter plate number" required>
-					
-											<!-- Remarks -->
-											<label for="remarks">Remarks</label>
-											<textarea id="remarks" rows="3" placeholder="Enter remarks (optional)"></textarea>
-					
-											<!-- Status -->
-											<label for="status">Status</label>
-											<select id="status" required>
-												<option value="">Select Status</option>
-												<option value="ACTIVE">Active</option>
-												<option value="INACTIVE">Inactive</option>
-												<option value="MAINTENANCE">Maintenance</option>
-											</select>
-					
-											<!-- Category -->
-											<label for="category">Vehicle Category</label>
-											<input type="text" id="category" placeholder="Enter vehicle category" required>
-					
-											<!-- Staff ID -->
-											<label for="staffId">Staff ID</label>
-											<input type="text" id="staffId" placeholder="Enter staff ID" required>
+											<div class="form-group">
+												<label for="vehicleCode">Vehicle Code</label>
+												<input type="text" id="vehicleCode" placeholder="Enter vehicle code" required>
+											</div>
+											<div class="form-group">
+												<label for="fuelType">Fuel Type</label>
+												<input type="text" id="fuelType" placeholder="Enter fuel type" required>
+											</div>
+											<div class="form-group">
+												<label for="plateNumber">Plate Number</label>
+												<input type="text" id="plateNumber" placeholder="Enter plate number" required>
+											</div>
+											<div class="form-group">
+												<label for="remarks">Remarks</label>
+												<textarea id="remarks" rows="3" placeholder="Optional remarks"></textarea>
+											</div>
+											<div class="form-group">
+												<label for="status">Status</label>
+												<select id="status" required>
+													<option value="">Select Status</option>
+													<option value="ACTIVE">Active</option>
+													<option value="INACTIVE">Inactive</option>
+													<option value="MAINTENANCE">Maintenance</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="category">Category</label>
+												<input type="text" id="category" placeholder="Enter category" required>
+											</div>
+											<div class="form-group">
+												<label for="staffId">Staff ID</label>
+												<input type="text" id="staffId" placeholder="Enter staff ID" required>
+											</div>
 										</form>
 									</div>
 									<div class="modal-footer">
-										<button class="btn close-modal">Close</button>
-										<button class="btn" id="saveButton">Save Vehicle</button>
+										<button class="button secondary close-modal">Cancel</button>
+										<button class="button primary" id="saveButton">Save</button>
 									</div>
 								</div>
 							</div>
 					
-							<!-- Table Section -->
 							<div class="table-container">
 								<table>
 									<thead>
@@ -387,11 +381,12 @@
 											<th>Actions</th>
 										</tr>
 									</thead>
-									<tbody id="vehicleTableBody"></tbody>
+									<tbody id="vehicleTableBody">
+										<!-- Dynamic Content -->
+									</tbody>
 								</table>
 							</div>
 						</div>
-					</div>
             </div>
             <!-- [ sample-page ] end -->
         </div>
@@ -399,10 +394,13 @@
     </div>
 </div>
 
+ 
+
 
  
     <!-- Required Js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script src="/pages/js/vehicle.js"></script>
     <script src="/assets/js/vendor-all.min.js"></script>
