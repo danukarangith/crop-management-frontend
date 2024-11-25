@@ -1,48 +1,73 @@
-body {
-    font-family: Arial, sans-serif;
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f5f6fa;
+    --danger-color: #e74c3c;
+    --success-color: #2ecc71;
+    --text-color: #2c3e50;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    color: var(--text-color);
 }
 
 .container {
-    max-width: 900px;
-    margin: 20px auto;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 30px;
 }
 
-h2 {
-    margin: 0;
+.header h1 {
+    color: var(--primary-color);
+    font-size: 28px;
 }
 
-.btn {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: #fff;
+.button {
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-.btn:hover {
-    background-color: #0056b3;
+.button.primary {
+    background-color: var(--primary-color);
+    color: white;
 }
 
-.loading-spinner {
-    text-align: center;
-    font-size: 18px;
-    color: #007bff;
-    margin: 20px 0;
+.button.primary:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
+}
+
+.button.secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.button.secondary:hover {
+    background-color: #7f8c8d;
 }
 
 .modal {
@@ -53,16 +78,18 @@ h2 {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
+    z-index: 1000;
 }
 
 .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    width: 400px;
     position: relative;
+    background-color: white;
+    margin: 50px auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;  /* Adjusted modal width */
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
@@ -70,57 +97,195 @@ h2 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--secondary-color);
 }
 
-.modal-header .close {
+.close-modal {
+    background: none;
+    border: none;
     font-size: 24px;
     cursor: pointer;
+    color: #666;
 }
 
-.modal-body label {
-    display: block;
-    margin: 10px 0 5px;
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.modal-body input, 
-.modal-body select, 
-.modal-body textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.form-group label {
+    flex: 0 0 120px;  /* Set a fixed width for labels */
+    margin-right: 20px; /* Space between label and input */
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    height: 100px;  /* Limit textarea height */
 }
 
 .modal-footer {
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 2px solid var(--secondary-color);
 }
 
 .table-container {
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
     overflow-x: auto;
-    margin-top: 20px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
+    border-spacing: 0;
 }
 
-thead {
-    background-color: #f8f9fa;
-}
-
-th, td {
-    padding: 10px;
+table th, table td {
+    padding: 15px;
     text-align: left;
-    border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
-th {
-    background-color: #e9ecef;
+table th {
+    background-color: #f5f6fa;
+    color: var(--primary-color);
 }
 
-tbody tr:hover {
+table tr:hover {
     background-color: #f1f1f1;
 }
+
+/* .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+} */
+/* Loading Spinner */
+.loading-spinner {
+    display: none; /* Initially hidden */
+    position: absolute; /* Positioned inside the modal */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1100; /* Above modal content */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Hover Effect for Table Rows */
+table tr {
+    transition: background-color 0.3s ease;
+}
+
+table tr:hover {
+    background-color: #e1f5fe; /* Light blue background on hover */
+}
+
+table td, table th {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f5f6fa;
+    color: var(--primary-color);
+}
+
+/* Tooltip Styling */
+.tooltip {
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+    z-index: 1200; /* Make sure it's above other elements */
+    white-space: nowrap;
+    pointer-events: none; /* So it doesn't block other elements */
+}
+
+/* Adjusting Modal Content and Centering the Spinner */
+.modal-content {
+    position: relative;
+    background-color: white;
+    margin: 50px auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Container Style */
+.table-container {
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow-x: auto;
+    position: relative; /* Make sure it's positioned relative to the document */
+}
+
