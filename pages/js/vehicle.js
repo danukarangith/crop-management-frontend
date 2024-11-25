@@ -1,81 +1,108 @@
-const API_URL = 'http://localhost:8080/api/v1/vehicles';
-let isEditing = false;
-let currentVehicleCode = null;
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('vehicleModal');
+    const openModalBtn = document.getElementById('openModal');
+    const closeModalBtns = document.querySelectorAll('.close-modal');
+    const saveButton = document.getElementById('saveButton');
+    const vehicleForm = document.getElementById('vehicleForm');
+    const loadingSpinner = document.getElementById('loadingSpinner');
 
 
-const openModal = document.getElementById("openModal");
-const closeModal = document.querySelectorAll(".close-modal, #closeModal");
-const modal = document.getElementById("vehicleModal");
+    
 
-openModal.addEventListener("click", () => {
-    modal.style.display = "flex";
-});
+    const formFields = [
+        'vehicleCode',
+        'fuelType',
+        'plateNumber',
+        'remarks',
+        'status',
+        'category',
+        'staffId'
+    ];
 
-closeModal.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
-});
-
-window.addEventListener("click", (e) => {
-    if (e.target === modal) {
-        modal.style.display = "none";
-    }
-});
-
-
-// Show/hide loading spinner
-function toggleLoading(show) {
-    document.getElementById('loadingSpinner').style.display = show ? 'block' : 'none';
-}
-// Enable Enter key to move to the next input field
-function enableEnterKeyNavigation() {
-    const formElements = document.querySelectorAll('#vehicleForm input, #vehicleForm select, #vehicleForm textarea');
-
-    formElements.forEach((element, index) => {
-        element.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent form submission on Enter
-                const nextElement = formElements[index + 1];
-                if (nextElement) {
-                    nextElement.focus(); // Focus on the next field
-                } else {
-                    document.getElementById('saveButton').focus(); // Focus on Save button if it's the last field
+    // Add keyboard navigation
+    formFields.forEach((fieldId, index) => {
+        const field = document.getElementById(fieldId);
+        
+        field.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                
+                // If it's the last field and all fields are valid, save the form
+                if (index === formFields.length - 1 && vehicleForm.checkValidity()) {
+                    saveVehicle(); // Trigger save on Enter after last field
+                    return;
+                }
+                
+                // Move to next field
+                const nextField = document.getElementById(formFields[index + 1]);
+                if (nextField) {
+                    nextField.focus();
                 }
             }
         });
+
+        // Add focus and blur event listeners for styling
+        field.addEventListener('focus', () => {
+            field.parentElement.classList.add('active');
+        });
+
+        field.addEventListener('blur', () => {
+            field.parentElement.classList.remove('active');
+        });
     });
-}
 
-// Show alert message using SweetAlert2
-function showAlert(message, type) {
-     // Temporarily hide the Bootstrap modal
-     modal.hide();
+    // Function to create tooltip
+    function createTooltip(content) {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = content;
+        document.body.appendChild(tooltip);
+        return tooltip;
+    }
 
-     Swal.fire({
-         icon: type, // 'success', 'error', 'warning', etc.
-         title: type === 'success' ? 'Success' : 'Error',
-         text: message,
-         confirmButtonText: 'OK',
-         showCloseButton: true,
-         didClose: () => {
-             // Bring back the modal (if needed)
-             if (isEditing || document.getElementById('vehicleModal').classList.contains('show')) {
-                 modal.show();
-             }
-         }
-     });
-    
-}
+    // Enhance table row hover effects
+    function enhanceTableRows() {
+        const rows = document.querySelectorAll('#vehicleTableBody tr');
+        const tooltip = createTooltip('');
 
-// Load all vehicles
-async function loadVehicles() {
-    try {
-        toggleLoading(true);
-        const response = await fetch(API_URL);
-        const vehicles = await response.json();
-        const tbody = document.getElementById('vehicleTableBody');
-        tbody.innerHTML = '';
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', (e) => {
+                const vehicleData = {
+                    'Vehicle Code': row.cells[0].textContent,
+                    'Fuel Type': row.cells[1].textContent,
+                    'Plate Number': row.cells[2].textContent,
+                    'Status': row.cells[4].textContent
+                };
+
+                const tooltipContent = Object.entries(vehicleData)
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join('\n');
+
+                tooltip.textContent = tooltipContent;
+                tooltip.style.display = 'block';
+                
+                // Position tooltip
+                const rowRect = row.getBoundingClientRect();
+                tooltip.style.top = `${rowRect.top - tooltip.offsetHeight - 10}px`;
+                tooltip.style.left = `${rowRect.left + (rowRect.width / 2) - (tooltip.offsetWidth / 2)}px`;
+            });
+
+            row.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+
+            // Update tooltip position on mouse move
+            row.addEventListener('mousemove', (e) => {
+                tooltip.style.left = `${e.pageX - tooltip.offsetWidth / 2}px`;
+                tooltip.style.top = `${e.pageY - tooltip.offsetHeight - 10}px`;
+            });
+        });
+    }
+
+    // Render table function
+    function renderTable() {
+        const tableBody = document.getElementById('vehicleTableBody');
+        tableBody.innerHTML = '';
 
         vehicles.forEach(vehicle => {
             const row = document.createElement('tr');
@@ -83,139 +110,150 @@ async function loadVehicles() {
                 <td>${vehicle.vehicleCode}</td>
                 <td>${vehicle.fuelType}</td>
                 <td>${vehicle.plateNumber}</td>
-                <td>${vehicle.remarks || ''}</td>
+                <td>${vehicle.remarks}</td>
                 <td>${vehicle.status}</td>
                 <td>${vehicle.category}</td>
                 <td>${vehicle.staffId}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning me-1" onclick="editVehicle('${vehicle.vehicleCode}')">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger" onclick="deleteVehicle('${vehicle.vehicleCode}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <div class="action-buttons">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
                 </td>
             `;
-            tbody.appendChild(row);
+            tableBody.appendChild(row);
         });
-    } catch (error) {
-        showAlert('Failed to load vehicles', 'error');
-    } finally {
-        toggleLoading(false);
+
+        enhanceTableRows();
     }
-}
 
-// Save or update vehicle
-async function saveVehicle() {
-    const vehicleData = {
-        vehicleCode: document.getElementById('vehicleCode').value,
-        fuelType: document.getElementById('fuelType').value,
-        plateNumber: document.getElementById('plateNumber').value,
-        remarks: document.getElementById('remarks').value,
-        status: document.getElementById('status').value,
-        category: document.getElementById('category').value,
-        staffId: document.getElementById('staffId').value
-    };
-
-    try {
-        toggleLoading(true);
-        const method = isEditing ? 'PATCH' : 'POST';
-        const url = isEditing ? `${API_URL}/${currentVehicleCode}` : API_URL;
-
-        const response = await fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(vehicleData)
-        });
-
-        if (response.ok) {
-            showAlert(`Vehicle ${isEditing ? 'updated' : 'added'} successfully`, 'success');
-            modal.hide();
-            loadVehicles();
-            resetForm();
-        } else {
-            showAlert(`Failed to ${isEditing ? 'update' : 'add'} vehicle`, 'error');
+    // Form validation feedback
+    function showValidationMessage(field, message) {
+        const validationMessage = field.parentElement.querySelector('.validation-message');
+        if (validationMessage) {
+            validationMessage.textContent = message;
+            validationMessage.style.display = 'block';
         }
-    } catch (error) {
-        showAlert(`Error: ${error.message}`, 'error');
-    } finally {
-        toggleLoading(false);
     }
-}
 
-// Edit vehicle
-async function editVehicle(vehicleCode) {
-    try {
-        toggleLoading(true);
-        const response = await fetch(`${API_URL}/${vehicleCode}`);
-        const vehicle = await response.json();
+    formFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        field.addEventListener('invalid', (e) => {
+            e.preventDefault();
+            showValidationMessage(field, field.validationMessage);
+        });
 
-        document.getElementById('vehicleCode').value = vehicle.vehicleCode;
-        document.getElementById('fuelType').value = vehicle.fuelType;
-        document.getElementById('plateNumber').value = vehicle.plateNumber;
-        document.getElementById('remarks').value = vehicle.remarks || '';
-        document.getElementById('status').value = vehicle.status;
-        document.getElementById('category').value = vehicle.category;
-        document.getElementById('staffId').value = vehicle.staffId;
-
-        isEditing = true;
-        currentVehicleCode = vehicleCode;
-        document.getElementById('modalTitle').textContent = 'Edit Vehicle';
-        document.getElementById('vehicleCode').readOnly = true;
-        modal.show();
-    } catch (error) {
-        showAlert('Failed to load vehicle details', 'error');
-    } finally {
-        toggleLoading(false);
-    }
-}
-
-// Delete vehicle
-async function deleteVehicle(vehicleCode) {
-    const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
+        field.addEventListener('input', () => {
+            if (field.validity.valid) {
+                const validationMessage = field.parentElement.querySelector('.validation-message');
+                if (validationMessage) {
+                    validationMessage.style.display = 'none';
+                }
+            }
+        });
     });
 
-    if (result.isConfirmed) {
-        try {
-            toggleLoading(true);
-            const response = await fetch(`${API_URL}/${vehicleCode}`, {
-                method: 'DELETE'
-            });
-
-            if (response.ok) {
-                Swal.fire('Deleted!', 'The vehicle has been deleted.', 'success');
-                loadVehicles();
-            } else {
-                Swal.fire('Error!', 'Failed to delete the vehicle.', 'error');
-            }
-        } catch (error) {
-            Swal.fire('Error!', `Error: ${error.message}`, 'error');
-        } finally {
-            toggleLoading(false);
+    // Sample data for demonstration
+    let vehicles = [
+        {
+            vehicleCode: 'VH001',
+            fuelType: 'Petrol',
+            plateNumber: 'ABC123',
+            remarks: 'Good condition',
+            status: 'ACTIVE',
+            category: 'Sedan',
+            staffId: 'ST001'
         }
+    ];
+
+    function openModal() {
+        modal.style.display = 'block';
+        vehicleForm.reset();
     }
-}
 
-// Reset form
-function resetForm() {
-    document.getElementById('vehicleForm').reset();
-    isEditing = false;
-    currentVehicleCode = null;
-    document.getElementById('modalTitle').textContent = 'Add Vehicle';
-    document.getElementById('vehicleCode').readOnly = false;
-}
+    function closeModal() {
+        modal.style.display = 'none';
+    }
 
-// Event Listeners
-document.getElementById('saveButton').addEventListener('click', saveVehicle);
-document.getElementById('vehicleModal').addEventListener('hidden.bs.modal', resetForm);
-document.addEventListener('DOMContentLoaded', loadVehicles);
-enableEnterKeyNavigation();
+    function showLoading() {
+        loadingSpinner.style.display = 'block';
+    }
+
+    function hideLoading() {
+        loadingSpinner.style.display = 'none';
+    }
+
+    // Save vehicle data
+    function saveVehicle() {
+        const formData = {
+            vehicleCode: document.getElementById('vehicleCode').value,
+            fuelType: document.getElementById('fuelType').value,
+            plateNumber: document.getElementById('plateNumber').value,
+            remarks: document.getElementById('remarks').value,
+            status: document.getElementById('status').value,
+            category: document.getElementById('category').value,
+            staffId: document.getElementById('staffId').value
+        };
+
+        showLoading();
+
+        // Simulate API call
+        setTimeout(() => {
+            hideLoading();
+
+            if (Math.random() > 0.5) { // Simulate success/error randomly
+                vehicles.push(formData);
+                renderTable();
+
+                // Show SweetAlert without closing the modal immediately
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Vehicle has been added successfully',
+                    icon: 'success',
+                    confirmButtonColor: '#4a90e2',
+                    willClose: () => {
+                        closeModal();  // Close modal after SweetAlert is closed
+                    }
+                });
+            } else {
+                // Show error alert
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Something went wrong while saving the vehicle',
+                    icon: 'error',
+                    confirmButtonColor: '#4a90e2',
+                    willClose: () => {
+                        closeModal();  // Close modal after SweetAlert is closed
+                    }
+                });
+            }
+        }, 1000);
+    }
+
+    // Event Listeners
+    openModalBtn.addEventListener('click', openModal);
+    closeModalBtns.forEach(btn => btn.addEventListener('click', closeModal));
+    saveButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (vehicleForm.checkValidity()) {
+            saveVehicle();
+        } else {
+            Swal.fire({
+                title: 'Validation Error!',
+                text: 'Please fill in all required fields',
+                icon: 'warning',
+                confirmButtonColor: '#4a90e2'
+            });
+        }
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Initial render
+    renderTable();
+});
