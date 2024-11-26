@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    // DOM Element Selectors
     const modal = document.getElementById('vehicleModal');
     const openModalBtn = document.getElementById('openModal');
     const closeModalBtns = document.querySelectorAll('.close-modal');
@@ -6,9 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const vehicleForm = document.getElementById('vehicleForm');
     const loadingSpinner = document.getElementById('loadingSpinner');
 
-
-    
-
+    // Form Fields
     const formFields = [
         'vehicleCode',
         'fuelType',
@@ -19,87 +18,41 @@ document.addEventListener('DOMContentLoaded', function() {
         'staffId'
     ];
 
-    // Add keyboard navigation
-    formFields.forEach((fieldId, index) => {
-        const field = document.getElementById(fieldId);
-        
-        field.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                
-                // If it's the last field and all fields are valid, save the form
-                if (index === formFields.length - 1 && vehicleForm.checkValidity()) {
-                    saveVehicle(); // Trigger save on Enter after last field
-                    return;
-                }
-                
-                // Move to next field
-                const nextField = document.getElementById(formFields[index + 1]);
-                if (nextField) {
-                    nextField.focus();
-                }
-            }
-        });
+    // Vehicle Data
+    let vehicles = [
+        {
+            vehicleCode: 'VH001',
+            fuelType: 'Petrol',
+            plateNumber: 'ABC123',
+            remarks: 'Good condition',
+            status: 'ACTIVE',
+            category: 'Sedan',
+            staffId: 'ST001'
+        }
+    ];
 
-        // Add focus and blur event listeners for styling
-        field.addEventListener('focus', () => {
-            field.parentElement.classList.add('active');
-        });
-
-        field.addEventListener('blur', () => {
-            field.parentElement.classList.remove('active');
-        });
-    });
-
-    // Function to create tooltip
-    function createTooltip(content) {
-        const tooltip = document.createElement('div');
-        tooltip.className = 'tooltip';
-        tooltip.textContent = content;
-        document.body.appendChild(tooltip);
-        return tooltip;
+    // Function: Show loading spinner
+    function showLoading() {
+        loadingSpinner.style.display = 'block';
     }
 
-    // Enhance table row hover effects
-    function enhanceTableRows() {
-        const rows = document.querySelectorAll('#vehicleTableBody tr');
-        const tooltip = createTooltip('');
-
-        rows.forEach(row => {
-            row.addEventListener('mouseenter', (e) => {
-                const vehicleData = {
-                    'Vehicle Code': row.cells[0].textContent,
-                    'Fuel Type': row.cells[1].textContent,
-                    'Plate Number': row.cells[2].textContent,
-                    'Status': row.cells[4].textContent
-                };
-
-                const tooltipContent = Object.entries(vehicleData)
-                    .map(([key, value]) => `${key}: ${value}`)
-                    .join('\n');
-
-                tooltip.textContent = tooltipContent;
-                tooltip.style.display = 'block';
-                
-                // Position tooltip
-                const rowRect = row.getBoundingClientRect();
-                tooltip.style.top = `${rowRect.top - tooltip.offsetHeight - 10}px`;
-                tooltip.style.left = `${rowRect.left + (rowRect.width / 2) - (tooltip.offsetWidth / 2)}px`;
-            });
-
-            row.addEventListener('mouseleave', () => {
-                tooltip.style.display = 'none';
-            });
-
-            // Update tooltip position on mouse move
-            row.addEventListener('mousemove', (e) => {
-                tooltip.style.left = `${e.pageX - tooltip.offsetWidth / 2}px`;
-                tooltip.style.top = `${e.pageY - tooltip.offsetHeight - 10}px`;
-            });
-        });
+    // Function: Hide loading spinner
+    function hideLoading() {
+        loadingSpinner.style.display = 'none';
     }
 
-    // Render table function
+    // Function: Open the modal
+    function openModal() {
+        modal.style.display = 'block';
+        vehicleForm.reset();
+    }
+
+    // Function: Close the modal
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    // Function: Render vehicle table
     function renderTable() {
         const tableBody = document.getElementById('vehicleTableBody');
         tableBody.innerHTML = '';
@@ -127,63 +80,53 @@ document.addEventListener('DOMContentLoaded', function() {
         enhanceTableRows();
     }
 
-    // Form validation feedback
-    function showValidationMessage(field, message) {
-        const validationMessage = field.parentElement.querySelector('.validation-message');
-        if (validationMessage) {
-            validationMessage.textContent = message;
-            validationMessage.style.display = 'block';
-        }
-    }
+    // Function: Enhance table rows with tooltips
+    function enhanceTableRows() {
+        const rows = document.querySelectorAll('#vehicleTableBody tr');
+        const tooltip = createTooltip('');
 
-    formFields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        field.addEventListener('invalid', (e) => {
-            e.preventDefault();
-            showValidationMessage(field, field.validationMessage);
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                const vehicleData = {
+                    'Vehicle Code': row.cells[0].textContent,
+                    'Fuel Type': row.cells[1].textContent,
+                    'Plate Number': row.cells[2].textContent,
+                    'Status': row.cells[4].textContent
+                };
+
+                const tooltipContent = Object.entries(vehicleData)
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join('\n');
+
+                tooltip.textContent = tooltipContent;
+                tooltip.style.display = 'block';
+
+                const rowRect = row.getBoundingClientRect();
+                tooltip.style.top = `${rowRect.top - tooltip.offsetHeight - 10}px`;
+                tooltip.style.left = `${rowRect.left + (rowRect.width / 2) - (tooltip.offsetWidth / 2)}px`;
+            });
+
+            row.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+
+            row.addEventListener('mousemove', (e) => {
+                tooltip.style.left = `${e.pageX - tooltip.offsetWidth / 2}px`;
+                tooltip.style.top = `${e.pageY - tooltip.offsetHeight - 10}px`;
+            });
         });
-
-        field.addEventListener('input', () => {
-            if (field.validity.valid) {
-                const validationMessage = field.parentElement.querySelector('.validation-message');
-                if (validationMessage) {
-                    validationMessage.style.display = 'none';
-                }
-            }
-        });
-    });
-
-    // Sample data for demonstration
-    let vehicles = [
-        {
-            vehicleCode: 'VH001',
-            fuelType: 'Petrol',
-            plateNumber: 'ABC123',
-            remarks: 'Good condition',
-            status: 'ACTIVE',
-            category: 'Sedan',
-            staffId: 'ST001'
-        }
-    ];
-
-    function openModal() {
-        modal.style.display = 'block';
-        vehicleForm.reset();
     }
 
-    function closeModal() {
-        modal.style.display = 'none';
+    // Function: Create tooltip
+    function createTooltip(content) {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = content;
+        document.body.appendChild(tooltip);
+        return tooltip;
     }
 
-    function showLoading() {
-        loadingSpinner.style.display = 'block';
-    }
-
-    function hideLoading() {
-        loadingSpinner.style.display = 'none';
-    }
-
-    // Save vehicle data
+    // Function: Save vehicle data
     function saveVehicle() {
         const formData = {
             vehicleCode: document.getElementById('vehicleCode').value,
@@ -205,29 +148,80 @@ document.addEventListener('DOMContentLoaded', function() {
                 vehicles.push(formData);
                 renderTable();
 
-                // Show SweetAlert without closing the modal immediately
                 Swal.fire({
                     title: 'Success!',
                     text: 'Vehicle has been added successfully',
                     icon: 'success',
                     confirmButtonColor: '#4a90e2',
                     willClose: () => {
-                        closeModal();  // Close modal after SweetAlert is closed
+                        closeModal();
                     }
                 });
             } else {
-                // Show error alert
                 Swal.fire({
                     title: 'Error!',
                     text: 'Something went wrong while saving the vehicle',
                     icon: 'error',
-                    confirmButtonColor: '#4a90e2',
-                    willClose: () => {
-                        closeModal();  // Close modal after SweetAlert is closed
-                    }
+                    confirmButtonColor: '#4a90e2'
                 });
             }
         }, 1000);
+    }
+
+    // Event: Add keyboard navigation
+    formFields.forEach((fieldId, index) => {
+        const field = document.getElementById(fieldId);
+
+        field.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+
+                if (index === formFields.length - 1 && vehicleForm.checkValidity()) {
+                    saveVehicle();
+                    return;
+                }
+
+                const nextField = document.getElementById(formFields[index + 1]);
+                if (nextField) {
+                    nextField.focus();
+                }
+            }
+        });
+
+        field.addEventListener('focus', () => {
+            field.parentElement.classList.add('active');
+        });
+
+        field.addEventListener('blur', () => {
+            field.parentElement.classList.remove('active');
+        });
+    });
+
+    // Event: Form validation feedback
+    formFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+
+        field.addEventListener('invalid', (e) => {
+            e.preventDefault();
+            showValidationMessage(field, field.validationMessage);
+        });
+
+        field.addEventListener('input', () => {
+            if (field.validity.valid) {
+                const validationMessage = field.parentElement.querySelector('.validation-message');
+                if (validationMessage) {
+                    validationMessage.style.display = 'none';
+                }
+            }
+        });
+    });
+
+    function showValidationMessage(field, message) {
+        const validationMessage = field.parentElement.querySelector('.validation-message');
+        if (validationMessage) {
+            validationMessage.textContent = message;
+            validationMessage.style.display = 'block';
+        }
     }
 
     // Event Listeners
@@ -247,13 +241,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Close modal when clicking outside
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             closeModal();
         }
     });
 
-    // Initial render
+    // Initial table rendering
     renderTable();
 });
