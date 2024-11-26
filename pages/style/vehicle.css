@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #4a90e2;
+    --primary-color: #1abc9c;
     --secondary-color: #f5f6fa;
     --danger-color: #e74c3c;
     --success-color: #2ecc71;
@@ -19,6 +19,24 @@ body {
     background-color: #f0f2f5;
     color: var(--text-color);
 }
+.green-dot {
+    width: 8px; /* Adjust size as needed */
+    height: 8px;
+    background-color: #28a745; /* Green color */
+    border-radius: 50%;
+    display: inline-block;
+    animation: blink 1s infinite; /* Apply the blinking animation */
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1; /* Fully visible */
+    }
+    50% {
+        opacity: 0; /* Hidden */
+    }
+}
+
 
 .container {
     max-width: 1200px;
@@ -102,12 +120,27 @@ body {
 }
 
 .close-modal {
-    background: none;
+    background: transparent; /* Transparent background for a sleek look */
     border: none;
-    font-size: 24px;
+    font-size: 18px; /* Slightly smaller for a refined appearance */
     cursor: pointer;
-    color: #666;
+    color: #e63946; /* Use a trendy shade of red */
+    padding: 5px;
+     /* Circular design for a modern feel */
+    transition: all 0.3s ease; /* Smooth transition effect */
 }
+
+.close-modal:hover {
+    color: #f94144; /* Slightly brighter red on hover */
+    background-color: rgba(230, 57, 70, 0.1); /* Subtle red background on hover */
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
+}
+
+.close-modal:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 4px 2px rgba(230, 57, 70, 0.5); /* Add focus ring for accessibility */
+}
+
 
 .form-group {
     display: flex;
