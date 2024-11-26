@@ -17971,6 +17971,23 @@ a.text-dark:hover, a.text-dark:focus {
 .switch.switch-purple input[type=checkbox]:checked + .cr:before {
     background: #536dfe;
 }
+.green-dot {
+    width: 8px; /* Adjust size as needed */
+    height: 8px;
+    background-color: #28a745; /* Green color */
+    border-radius: 50%;
+    display: inline-block;
+    animation: blink 1s infinite; /* Apply the blinking animation */
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1; /* Fully visible */
+    }
+    50% {
+        opacity: 0; /* Hidden */
+    }
+}
 
 /**====== Switches css end ======**/
 /**  =====================
