@@ -357,10 +357,7 @@
 									<hr>
                                    
                                     <form id="staffForm">
-                                        <div class="form-row">
-                                            <label for="staffId">Staff ID</label>
-                                            <input type="text" id="staffId" name="staffId" required>
-                                        </div>
+                                         
                                         <div class="form-row">
                                             <label for="firstName">First Name</label>
                                             <input type="text" id="firstName" name="firstName" required>
@@ -371,7 +368,13 @@
                                         </div>
                                         <div class="form-row">
                                             <label for="designation">Designation</label>
-                                            <input type="text" id="designation" name="designation" required>
+											<select id="designation" name="designation" required>
+												<option value="MANAGER">Manager</option>
+												<option value="WORKER">Worker</option>
+												<option value="SUPERVISOR">Supervisor</option>
+												<option value="TECHNICIAN">Technician</option>
+											</select>
+                                             
                                         </div>
                                         <div class="form-row">
                                             <label for="gender">Gender</label>
@@ -464,6 +467,7 @@
  
     <!-- Required Js -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script> -->
+	 <script src="/pages/js/textsfaff.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script src="/pages/js/staff.js"></script>
