@@ -54,58 +54,64 @@ function fetchStaff() {
 }
 
 // Show the add staff form (popup modal)
-document.getElementById('addStaffBtn').addEventListener('click', function () {
-    document.getElementById('popupForm').style.display = 'block';
-});
-
-// Close the modal when cancel or close button is clicked
-document.getElementById('closeModal').addEventListener('click', function () {
-    document.getElementById('popupForm').style.display = 'none';
-});
-document.getElementById('cancelBtn').addEventListener('click', function () {
-    document.getElementById('popupForm').style.display = 'none';
-});
-
-// Add new staff using AJAX
-document.getElementById('staffForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const staffData = {
-        // staffId: document.getElementById('staffId').value,
+function saveStaff() {
+    const newStaff = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
         designation: document.getElementById('designation').value,
         gender: document.getElementById('gender').value,
         joinedDate: document.getElementById('joinedDate').value,
         dob: document.getElementById('dob').value,
-        address: `${document.getElementById('addressLine1').value}, ${document.getElementById('addressLine2').value}, ${document.getElementById('addressLine3').value}, ${document.getElementById('addressLine4').value}, ${document.getElementById('addressLine5').value}`,
+        address: document.getElementById('addressLine1').value,
         contactNo: document.getElementById('contactNo').value,
         email: document.getElementById('email').value,
         role: document.getElementById('role').value
     };
 
+    document.getElementById('loadingSpinner').style.display = 'block'; // Show loading spinner
+
     fetch(apiUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${jwtToken} ` 
-            
+            Authorization: `Bearer ${jwtToken}`
         },
-        body: JSON.stringify(staffData)
+        body: JSON.stringify(newStaff)
     })
         .then(response => {
-            if (response.status === 201) {
-                alert('Staff added successfully!');
-                fetchStaff();  // Refresh staff list
-                document.getElementById('popupForm').style.display = 'none';  // Close the popup
-            } else {
-                alert('Error adding staff');
+            if (!response.ok) {
+                throw new Error('Failed to save staff.');
             }
+            return response.json();
+        })
+        .then(data => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Staff member saved successfully!',
+            });
+
+            // Clear form inputs
+            document.getElementById('staffForm').reset();
+
+            // Optionally refresh the staff list
+            fetchStaff();
         })
         .catch(error => {
-            console.error('Error adding staff:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an issue saving the staff data!',
+            });
+            console.error('Error saving staff:', error);
+        })
+        .finally(() => {
+            document.getElementById('loadingSpinner').style.display = 'none'; // Hide loading spinner
         });
-});
+}
+
+            
+            
 
 // Delete staff using AJAX
 function deleteStaff(staffId) {

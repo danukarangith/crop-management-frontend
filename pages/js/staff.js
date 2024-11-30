@@ -75,36 +75,5 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Function to save staff (for now, just logging data)
-    function saveStaff() {
-        const formData = {
-            staffId: document.getElementById("staffId").value,
-            firstName: document.getElementById("firstName").value,
-            lastName: document.getElementById("lastName").value,
-            designation: document.getElementById("designation").value,
-            gender: document.getElementById("gender").value,
-            joinedDate: document.getElementById("joinedDate").value,
-            dob: document.getElementById("dob").value,
-            address: [
-                document.getElementById("addressLine1").value,
-                document.getElementById("addressLine2").value,
-                document.getElementById("addressLine3").value,
-                document.getElementById("addressLine4").value,
-                document.getElementById("addressLine5").value
-            ].join(", "),
-            contactNo: document.getElementById("contactNo").value,
-            email: document.getElementById("email").value,
-            role: document.getElementById("role").value
-        };
-
-        console.log("Staff Saved:", formData);
-        Swal.fire({
-            title: "Success!",
-            text: "Staff has been added successfully",
-            icon: "success",
-            confirmButtonColor: "#4a90e2",
-            willClose: () => {
-                closePopupForm();
-            }
-        });
-    }
+     
 });
