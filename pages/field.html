@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> Green-nexus</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="">
+    <meta name="author" content="Phoenixcoded" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Favicon icon -->
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/pages/style/staff.css">
+	 <!-- vendor css -->
+	 <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+    /* Modal Form Styling */
+	#vehicleModal {
+    z-index: 999; /* Make sure this is below SweetAlert's z-index */
+}
+ 
+       
+     
+ 
+
+</style>
+ 
+     
+ 
+	 
+     
+</head>
+
+
+
+<body class="">
+	<!-- [ Pre-loader ] start -->
+	<div class="loader-bg">
+		<div class="loader-track">
+			<div class="loader-fill"></div>
+		</div>
+	</div>
+	<!-- [ Pre-loader ] End -->
+	<!-- [ navigation menu ] start -->
+	<nav class="pcoded-navbar  ">
+		<div class="navbar-wrapper  ">
+			<div class="navbar-content scroll-div " >
+				
+				<div class="">
+					<div class="main-menu-header">
+						<img class="img-radius" src="/assets/images/user/453652412_510118688137327_9011857503588793629_n (1).jpg" alt="User-Profile-Image">
+						<div class="user-details">
+							<span>Danuka Perera</span>
+							<div id="more-details" style="font-weight: bolder; color: white; display: flex; align-items: center;">
+								<span class="green-dot"></span>
+								<span style="margin-left: 5px;">Login Now</span>
+								<i class="fa fa-chevron-down m-l-5"></i>
+							</div>
+						</div>
+					</div>
+					<div class="collapse" id="nav-user-link">
+						<ul class="list-unstyled">
+							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
+							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
+							<li class="list-group-item"><a href="auth-normal-sign-in.html"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+						</ul>
+					</div>
+				</div>
+				
+				<ul class="nav pcoded-inner-navbar ">
+					<li class="nav-item pcoded-menu-caption">
+						<label>Navigation</label>
+					</li>
+					<li class="nav-item">
+					    <a href="/index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Log details</span></a>
+					    <ul class="pcoded-submenu">
+					        <li><a href="layout-vertical.html" target="_blank">log Staff</a></li>
+					        <li><a href="layout-horizontal.html" target="_blank">log Field</a></li>
+					        <li><a href="layout-horizontal.html" target="_blank">log Crop</a></li>
+
+					    </ul>
+					</li>
+					<li class="nav-item pcoded-menu-caption">
+						<label>other controllers</label>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-align-justify"></i></span><span class="pcoded-mtext">Field</span></a>
+						<ul class="pcoded-submenu">
+							<li><a href="bc_alert.html">field </a></li>
+							<li><a href="bc_alert.html">field staff</a></li>
+							 
+						</ul>
+					</li> 
+					 
+					<li class="nav-item">
+					    <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Staff</span></a>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="fa fa-tree"></i></span><span class="pcoded-mtext">Crop Manage</span></a>
+						<ul class="pcoded-submenu">
+							<li><a href="/pages/crop.html">Crop </a></li>
+							<li><a href="bc_alert.html">Crop Details</a></li>
+							 
+						</ul>
+					</li>
+					 <!-- <li class="nav-item pcoded-menu-caption">
+						<label>Chart & Maps</label>
+					</li> -->
+					<li class="nav-item">
+					    <a href="chart-apex.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-car"></i></span><span class="pcoded-mtext">Vehicle</span></a>
+					</li>
+					<li class="nav-item">
+					    <a href="map-google.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Equipment</span></a>
+					</li>
+					<li class="nav-item pcoded-menu-caption">
+						<label>Pages</label>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Authentication</span></a>
+					    <ul class="pcoded-submenu">
+					        <li><a href="auth-signup.html" target="_blank">Sign up</a></li>
+					        <li><a href="auth-signin.html" target="_blank">Sign in</a></li>
+					        <li><a href="auth-signin.html" target="_blank">User Controll</a></li>
+					    </ul>
+					</li>
+					<li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-cogs"></i></span><span class="pcoded-mtext">Setting</span></a></li>
+					 
+
+				</ul>
+				
+			 
+				
+			</div>
+		</div>
+	</nav>
+	<!-- [ navigation menu ] end -->
+	<!-- [ Header ] start -->
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light header-dark">
+		
+			
+				<div class="m-header">
+					<a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+					<a href="#!" class="b-brand">
+						<!-- ========   change your logo hear   ============ -->
+						<img src="/assets/images/green-removebg-preview.png" alt="" class="logo" style="height: 120px;">
+						<img src="/assets/images/green-removebg-preview.png" alt="" class="logo-thumb">
+					</a>
+					<a href="#!" class="mob-toggler">
+						<i class="feather icon-more-vertical"></i>
+					</a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a href="#!" class="pop-search"><i class="feather icon-search"></i></a>
+							<div class="search-bar">
+								<input type="text" class="form-control border-0 shadow-none" placeholder="Search hear">
+								<button type="button" class="close" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</li>
+						<li class="nav-item">
+							<div class="dropdown">
+								<a class="dropdown-toggle h-drop" href="#" data-toggle="dropdown" style="font-weight: bolder; color:white;">
+									Welcome Back 👋
+								</a>
+								<!-- <div class="dropdown-menu profile-notification ">
+									<ul class="pro-body">
+										<li><a href="user-profile.html" class="dropdown-item"><i class="fas fa-circle"></i> Profile</a></li>
+										<li><a href="email_inbox.html" class="dropdown-item"><i class="fas fa-circle"></i> My Messages</a></li>
+										<li><a href="auth-signin.html" class="dropdown-item"><i class="fas fa-circle"></i> Lock Screen</a></li>
+									</ul>
+								</div> -->
+							</div>
+						</li>
+					  
+					</ul>
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<div id="dateTime" class="text-light" style="padding: 0 15px; font-weight: bolder; color: white;"></div>
+						</li>
+						<li>
+							<div class="dropdown">
+								<a class="dropdown-toggle" href="#" data-toggle="dropdown">
+									<i class="icon feather icon-bell"></i>
+									<span class="badge badge-pill badge-danger">5</span>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right notification">
+									<div class="noti-head">
+										<h6 class="d-inline-block m-b-0">Notifications</h6>
+										<div class="float-right">
+											<a href="#!" class="m-r-10">mark as read</a>
+											<a href="#!">clear all</a>
+										</div>
+									</div>
+									<ul class="noti-body">
+										<li class="n-title">
+											<p class="m-b-0">NEW</p>
+										</li>
+										<li class="notification">
+											<div class="media">
+												<img class="img-radius" src="/assets/images/user/465268644_1778952845972883_4767919127432151839_n (1).jpg" alt="Generic placeholder image">
+												<div class="media-body">
+													<p><strong>Chamith Kavinda</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>5 min</span></p>
+													<p>New User Add</p>
+												</div>
+											</div>
+										</li>
+										<li class="n-title">
+											<p class="m-b-0">EARLIER</p>
+										</li>
+										<li class="notification">
+											<div class="media">
+												<img class="img-radius" src="/assets/images/user/400639439_298788469731797_3062661624898540093_n (1).jpg" alt="Generic placeholder image">
+												<div class="media-body">
+													<p><strong>Nisal Maduhansa</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
+													<p>Vehicle Assigned</p>
+												</div>
+											</div>
+										</li>
+										<li class="notification">
+											<div class="media">
+												<img class="img-radius" src="/assets/images/user/453652412_510118688137327_9011857503588793629_n (1).jpg" alt="Generic placeholder image">
+												<div class="media-body">
+													<p><strong>Danuka Rangith</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>12 min</span></p>
+													<p>currently login</p>
+												</div>
+											</div>
+										</li>
+										<!-- <li class="notification">
+											<div class="media">
+												<img class="img-radius" src="/assets/images/user/1676870708913 (1).jpg" alt="Generic placeholder image">
+												<div class="media-body">
+													<p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+													<p>Prchace New Theme and make payment</p>
+												</div>
+											</div>
+										</li> -->
+									</ul>
+									<div class="noti-footer">
+										<a href="#!">show all</a>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="dropdown drp-user">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<i class="feather icon-user"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right profile-notification">
+									<div class="pro-head">
+										<img src="/assets/images/user/453652412_510118688137327_9011857503588793629_n (1).jpg" class="img-radius" alt="User-Profile-Image">
+										<span>Danuka Perera</span>
+										<a href="auth-signin.html" class="dud-logout" title="Logout">
+											<i class="feather icon-log-out"></i>
+										</a>
+									</div>
+									<ul class="pro-body">
+										<li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
+										<li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
+										<li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				
+			
+	</header>
+	<!-- [ Header ] end -->
+	
+	
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Staff page</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#!">Staff page</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <!-- [ sample-page ] start -->
+            <div class="col-sm-12">
+                <div class="card">
+
+                    <div class="card-header">
+                        <!-- <h1>Vehicle Management</h1> -->
+                        <div class="card-header-right">
+                            <div class="btn-group card-option">
+                                <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="feather icon-more-horizontal"></i>
+                                </button>
+                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                    <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                                    <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                                    <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
+                                    <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+						<div class="container">
+							<header class="header">
+								<h1>Field Manage Window</h1>
+								<button id="addStaffBtn" class="add-button">+ Add Field</button>
+							</header>
+					
+							<div class="loading-spinner" id="loadingSpinner" style="display: none;">
+								<div class="spinner"></div>
+								<p>Loading...</p>
+							</div>
+					
+                            <div class="table-container">
+                                <table id="staffTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Field Id</th>
+                                            <th>Extend Size</th>
+                                            <th>Field Image 1</th>
+                                            <th>Field Image 2</th>
+                                            <th>Field Location</th>
+                                            <th>Field Name</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data rows will go here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                    
+                            <!-- Add Staff Form (Popup) -->
+                            <div id="popupForm" class="popup" style="display: none;">
+                                <div class="popup-content">
+                                     <button class="close-modal" id="closeModal">&times;</button>
+                                    <h2>Add Field</h2>
+									<hr>
+                                   
+                                    <form id="staffForm">
+                                         
+                                        <div class="form-row">
+                                            <label for="fieldCode">Field Code</label>
+                                            <input type="text" id="fieldCode" name="fieldCode" required />
+                                        </div>
+                                        <div class="form-row">
+                                            <label for="fieldName">Field Name</label>
+                                            <input type="text" id="fieldName" name="fieldName" required />
+                                        </div>
+                                        <div class="form-row">
+                                            <label for="extendSize">Field Extend Size (in acres)</label>
+                                            <input type="number" id="extendSize" name="extendSize" step="0.01" required />
+                                        </div>
+                                        <div class="form-row">
+                                            <label for="fieldLocation">Select Field Location</label>
+                                            <div id="map"></div>
+                                            <input type="text" id="fieldLocation" name="fieldLocation" readonly placeholder="Click on the map to select location" />
+                                        </div>
+                                        <div class="form-row">
+                                            <label for="fieldImage1">Field Image 1</label>
+                                            <input type="file" id="fieldImage1" name="fieldImage1" accept="image/*" required />
+                                        </div>
+                                        <div class="form-row">
+                                            <label for="fieldImage2">Field Image 2</label>
+                                            <input type="file" id="fieldImage2" name="fieldImage2" accept="image/*" />
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" id="submit" class="save-btn">Save</button>
+                                            <button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+						</div>
+            </div>
+            <!-- [ sample-page ] end -->
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<script>
+ document.addEventListener('DOMContentLoaded', function () {
+    // Initialize the map
+    const map = L.map('map').setView([7.8731, 80.7718], 7); // Default view for Sri Lanka
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+    }).addTo(map);
+
+    // References to popup elements
+    const popupForm = document.getElementById('popupForm');
+    const closeModal = document.getElementById('closeModal');
+    const openFormButton = document.getElementById('addStaffBtn'); // Button to open the popup
+
+    // Function to show the popup and resize the map
+    function showPopup() {
+        popupForm.style.display = 'block';
+        setTimeout(() => {
+            map.invalidateSize(); // Recalculate map size
+        }, 200); // Delay ensures popup is fully rendered
+    }
+
+    // Function to hide the popup
+    function hidePopup() {
+        popupForm.style.display = 'none';
+    }
+
+    // Add event listeners
+    openFormButton.addEventListener('click', showPopup); // Trigger to open the popup
+    closeModal.addEventListener('click', hidePopup); // Trigger to close the popup
+
+    // Handle map click event to select location
+    map.on('click', function (e) {
+        const lat = e.latlng.lat.toFixed(6);
+        const lng = e.latlng.lng.toFixed(6);
+        document.getElementById('fieldLocation').value = `${lat}, ${lng}`;
+    });
+});
+
+
+    // Function to update the date and time dynamically
+    function updateDateTime() {
+        const dateTimeElement = document.getElementById('dateTime');
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const time = now.toLocaleTimeString();
+        const date = now.toLocaleDateString(undefined, options);
+        dateTimeElement.textContent = `${date} | ${time}`;
+    }
+
+    // Update every second
+    setInterval(updateDateTime, 1000);
+    updateDateTime(); // Call immediately to display
+</script>
+
+ 
+
+
+ 
+    <!-- Required Js -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script> -->
+   
+	  
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script src="/pages/js/staff.js"></script>
+    <script src="/assets/js/vendor-all.min.js"></script>
+    <script src="/assets/js/plugins/bootstrap.min.js"></script>
+    <script src="/assets/js/pcoded.min.js"></script>
+
+
+
+</body>
+
+</html>
