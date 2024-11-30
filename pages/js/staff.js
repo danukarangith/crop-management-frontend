@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     const popupForm = document.getElementById("popupForm");
     const addStaffBtn = document.getElementById("addStaffBtn");
@@ -56,6 +57,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 nextField.focus();
             }
         });
+        field.addEventListener("focus", function(event) {
+            event.target.parentElement.classList.add('active'); // Add 'active' class on focus
+        });
+
+        field.addEventListener("blur", function(event) {
+            event.target.parentElement.classList.remove('active'); // Remove 'active' class on blur
+        });
     });
 
     // Function to get the next field based on current field
@@ -73,6 +81,19 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         saveStaff(); // Call your save function
     });
+
+
+
+    // const inputFields = document.querySelectorAll("#staffForm input, #staffForm select, #staffForm textarea");
+    // inputFields.forEach(field => {
+    //     field.addEventListener("focus", function(event) {
+    //         event.target.parentElement.classList.add('active'); // Add 'active' class on focus
+    //     });
+
+    //     field.addEventListener("blur", function(event) {
+    //         event.target.parentElement.classList.remove('active'); // Remove 'active' class on blur
+    //     });
+    // });
 
     // Function to save staff (for now, just logging data)
      
