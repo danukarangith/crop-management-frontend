@@ -449,3 +449,15 @@ textarea {
     border-radius: 4px;
     object-fit: cover;
 }
+#map {
+    height: 300px;
+    width: 100%;
+    margin-top: 10px;
+}
+.form-row {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
