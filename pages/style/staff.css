@@ -461,3 +461,24 @@ label {
     display: block;
     margin-bottom: 5px;
 }
+/* Style for the active class when a field is focused */
+/* Style for the active class when a field is focused */
+.form-row input,
+.form-row  select,
+.form-row  textarea {
+    flex: 1;
+    padding: 5px;
+    border: 2px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+.form-row  input:focus,
+.form-row select:focus,
+.form-row  textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
