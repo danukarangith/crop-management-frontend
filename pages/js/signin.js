@@ -24,7 +24,6 @@ async function apiRequest(url, method, body) {
 }
 
 // Login functionality
-// Login functionality
 async function handleLogin(event) {
     event.preventDefault(); // Prevent form submission
   
@@ -59,8 +58,7 @@ async function handleLogin(event) {
         confirmButtonText: 'OK',
       });
     }
-  }
-  
+}
 
 // Signup functionality
 async function handleSignup(event) {
@@ -94,8 +92,20 @@ async function handleSignup(event) {
         confirmButtonText: 'OK',
       });
     }
+}
+
+// Logout function
+ 
+
+// Check if token exists on page load (for authenticated pages)
+window.onload = function () {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    // If token is not present, logout and redirect to login page
+    logout();
   }
-  
+};
 
 // Attach event listeners to forms
 document.querySelector(".login-form form").addEventListener("submit", handleLogin);

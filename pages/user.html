@@ -88,26 +88,31 @@
 					<li class="nav-item pcoded-hasmenu">
 						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-align-justify"></i></span><span class="pcoded-mtext">Field</span></a>
 						<ul class="pcoded-submenu">
-							<li><a href="bc_alert.html">field </a></li>
+							<li><a href="/pages/staff.html">field </a></li>
 							<li><a href="bc_alert.html">field staff</a></li>
 							 
 						</ul>
 					</li> 
 					 
 					<li class="nav-item">
-					    <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Staff</span></a>
+					    <a href="/pages/staff.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Staff</span></a>
 					</li>
-					<li class="nav-item">
-					    <a href="tbl_bootstrap.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-tree"></i></span><span class="pcoded-mtext">Crop</span></a>
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="fa fa-tree"></i></span><span class="pcoded-mtext">Crop Manage</span></a>
+						<ul class="pcoded-submenu">
+							<li><a href="/pages/crop.html">Crop </a></li>
+							<li><a href="/pages/cropDetails.html">Crop Details</a></li>
+							 
+						</ul>
 					</li>
 					 <!-- <li class="nav-item pcoded-menu-caption">
 						<label>Chart & Maps</label>
 					</li> -->
 					<li class="nav-item">
-					    <a href="chart-apex.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-car"></i></span><span class="pcoded-mtext">Vehicle</span></a>
+					    <a href="/pages/vehicle.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-car"></i></span><span class="pcoded-mtext">Vehicle</span></a>
 					</li>
 					<li class="nav-item">
-					    <a href="map-google.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Equipment</span></a>
+					    <a href="/pages/equipment.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Equipment</span></a>
 					</li>
 					<li class="nav-item pcoded-menu-caption">
 						<label>Pages</label>
@@ -115,9 +120,9 @@
 					<li class="nav-item pcoded-hasmenu">
 					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Authentication</span></a>
 					    <ul class="pcoded-submenu">
-					        <li><a href="auth-signup.html" target="_blank">Sign up</a></li>
-					        <li><a href="auth-signin.html" target="_blank">Sign in</a></li>
-					        <li><a href="auth-signin.html" target="_blank">User Controll</a></li>
+					        <li><a href="/pages/signin.html" target="_blank">Sign up</a></li>
+					        <li><a href="/pages/signin.html" target="_blank">Sign in</a></li>
+					        <li><a href="/pages/user.html" target="_blank">User Controll</a></li>
 					    </ul>
 					</li>
 					<li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-cogs"></i></span><span class="pcoded-mtext">Setting</span></a></li>
@@ -250,14 +255,14 @@
 									<div class="pro-head">
 										<img src="/assets/images/user/453652412_510118688137327_9011857503588793629_n (1).jpg" class="img-radius" alt="User-Profile-Image">
 										<span>Danuka Perera</span>
-										<a href="auth-signin.html" class="dud-logout" title="Logout">
+										<a href="/pages/signin.html" class="dud-logout" title="Logout">
 											<i class="feather icon-log-out"></i>
 										</a>
 									</div>
 									<ul class="pro-body">
 										<li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
 										<li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-										<li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+										<li><a href="/pages/signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
 									</ul>
 								</div>
 							</div>
@@ -280,11 +285,11 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="page-header-title">
-                            <h5 class="m-b-10">Staff page</h5>
+                            <h5 class="m-b-10">User page</h5>
                         </div>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="#!">Staff page</a></li>
+                            <li class="breadcrumb-item"><a href="#!">User page</a></li>
                         </ul>
                     </div>
                 </div>
@@ -345,7 +350,7 @@
                             <div id="popupForm" class="popup">
                                 <div class="popup-content">
                                      <button class="close-modal" id="closeModal">&times;</button>
-                                    <h2>Add Staff</h2>
+                                    <h2>Add User</h2>
 									<hr>
                                    
                                     <form id="staffForm">
@@ -406,7 +411,7 @@
  
     <!-- Required Js -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script> -->
-	 <script src="/pages/js/staffmodel.js"></script>
+	 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script src="/pages/js/staff.js"></script>
