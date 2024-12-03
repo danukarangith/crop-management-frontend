@@ -95,6 +95,8 @@ async function handleSignup(event) {
 }
 
 // Logout function
+
+
  
 
 // Check if token exists on page load (for authenticated pages)
