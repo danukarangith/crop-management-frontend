@@ -339,6 +339,9 @@ h1 {
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    z-index: 9999; /* Set a high z-index to layer above the table */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .popup-content {
@@ -531,5 +534,40 @@ table th, table td {
     font-size: 15px;
     
 } 
+
+
+.table-container {
+    max-height: 500px; /* Adjust the height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    border: 1px solid #ddd; /* Optional: Add a border for better visibility */
+    position: relative; /* Ensure proper positioning of the table inside the container */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-header {
+    overflow: hidden; /* Prevent horizontal scroll on the header */
+    border-bottom: 2px solid #ddd; /* Optional: Add a border between header and body */
+}
+
+table th, table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+     /* Optional: Add borders for table cells */
+}
+
+table th {
+    background-color: #f4f4f4; /* Background for the sticky header */
+    position: sticky; /* Make the header sticky */
+    top: 0; /* Stick the header to the top of the container */
+    z-index: 2; /* Ensure the header stays above the data rows */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;  /* Optional: Add shadow to make the header distinct */
+}
+ 
 
  
