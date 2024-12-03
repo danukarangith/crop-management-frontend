@@ -8,6 +8,9 @@ const toggleLoading = (show) => {
     loadingSpinner.style.display = show ? "block" : "none";
 };
 
+let formMode = "ADD"; // Can be "ADD" or "EDIT"
+let currentEditStaffId = null;
+
 // Create Staff (POST)
 const createStaff = async (staffData) => {
     const token = getToken();
@@ -88,13 +91,18 @@ const updateStaff = async (staffId, staffData) => {
         body: JSON.stringify(staffData),
     });
 
+    // Check for response status
     if (!response.ok) {
+        const errorText = await response.text(); // Log the response text for debugging
+        console.error("Update failed:", errorText);
         throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const result = await response.json();
-    return result;
+    // Handle possible empty body response
+    const responseBody = await response.text();
+    return responseBody ? JSON.parse(responseBody) : null;
 };
+
 
 // Delete Staff (DELETE)
 const deleteStaff = async (staffId) => {
@@ -113,8 +121,17 @@ const deleteStaff = async (staffId) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    alert("delete successfully");
-    renderStaffTable();
+    Swal.fire({
+        icon: 'success',
+        title: 'Deleted!',
+        text: 'Staff has been successfully deleted.',
+        confirmButtonText: 'OK',
+    }).then(() => {
+        renderStaffTable();
+    });
+
+  
+
 
     // const result = await response.json();
     // return result;
@@ -130,15 +147,22 @@ const staffTableBody = document.querySelector("#staffTable tbody");
 const loadingSpinner = document.getElementById("loadingSpinner");
 
 // Show Popup Form
-const showPopup = (mode="ADD") => {
+// Show Popup Form
+const showPopup = (mode = "ADD", staffId = null) => {
     popupForm.style.display = "block";
-    popupForm.style.display="flex"
-   if(mode==="ADD"){
-    staffForm.reset()
-   }
-    
-    
+    popupForm.style.display = "flex";
+
+    if (mode === "EDIT") {
+        formMode = "EDIT";
+        currentEditStaffId = staffId;
+        // Don't reset the form in "EDIT" mode
+    } else {
+        formMode = "ADD";
+        currentEditStaffId = null;
+        staffForm.reset(); // Reset the form fields for "ADD" mode
+    }
 };
+
 
 // Hide Popup Form
 const hidePopup = () => {
@@ -204,43 +228,74 @@ staffForm.addEventListener("submit", async (event) => {
     };
 
     try {
-        // Add new staff
-        await createStaff(staffData);
+        if (formMode === "EDIT" && currentEditStaffId) {
+            // Update existing staff
+            await updateStaff(currentEditStaffId, staffData);
+            Swal.fire({
+                icon: 'success',
+                title: 'Updated!',
+                text: 'Staff data has been successfully updated.',
+                confirmButtonText: 'OK',
+            });
+        } else {
+            // Add new staff
+            await createStaff(staffData);
+            Swal.fire({
+                icon: 'success',
+                title: 'Saved!',
+                text: 'Staff data has been successfully saved.',
+                confirmButtonText: 'OK',
+            });
+        }
+
         renderStaffTable();
         hidePopup();
-        alert("save ");
+        staffForm.reset();
     } catch (error) {
         console.error("Error saving staff:", error);
-        alert("Failed to save staff data.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to save staff data. Please try again.',
+            confirmButtonText: 'OK',
+        });
     }
 });
 
 window.editStaff = async (staffId) => {
     try {
-        console.log(staffId);
-        const staff = await getSingleStaff(staffId); // Use the new method to get a single staff member
+        console.log("Fetching staff data for ID:", staffId);
+        const staff = await getSingleStaff(staffId);
 
-        document.getElementById("first_name").value = staff.firstName;
-        document.getElementById("last_name").value = staff.lastName;
-        document.getElementById("designation").value = staff.designation;
-        document.getElementById("gender").value = staff.gender;
-        document.getElementById("joined_date").value = staff.joinedDate;
-        document.getElementById("dob").value = staff.dob;
-        document.getElementById("address_line1").value = staff.addressLine1;
-        document.getElementById("address_line2").value = staff.addressLine2;
-        document.getElementById("address_line3").value = staff.addressLine3;
-        document.getElementById("address_line4").value = staff.addressLine4;
-        document.getElementById("address_line5").value = staff.addressLine5;
-        document.getElementById("contact_no").value = staff.contactNo;
-        document.getElementById("email").value = staff.email;
-        document.getElementById("role").value = staff.role;
+        // Populate the form with fetched data
+        document.getElementById("first_name").value = staff.firstName || "";
+        document.getElementById("last_name").value = staff.lastName || "";
+        document.getElementById("designation").value = staff.designation || "";
+        document.getElementById("gender").value = staff.gender || "";
+        document.getElementById("joined_date").value = staff.joinedDate || "";
+        document.getElementById("dob").value = staff.dob || "";
+        document.getElementById("address_line1").value = staff.addressLine1 || "";
+        document.getElementById("address_line2").value = staff.addressLine2 || "";
+        document.getElementById("address_line3").value = staff.addressLine3 || "";
+        document.getElementById("address_line4").value = staff.addressLine4 || "";
+        document.getElementById("address_line5").value = staff.addressLine5 || "";
+        document.getElementById("contact_no").value = staff.contactNo || "";
+        document.getElementById("email").value = staff.email || "";
+        document.getElementById("role").value = staff.role || "";
 
-        showPopup("EDIT");
+        // Show popup in edit mode
+        showPopup("EDIT", staffId);
     } catch (error) {
         console.error("Error fetching staff data:", error);
-        alert("Failed to fetch staff data.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to fetch staff data. Please try again.',
+            confirmButtonText: 'OK',
+        });
     }
 };
+
 
 // Event Listeners
 // addStaffBtn.addEventListener("click", showPopup);
