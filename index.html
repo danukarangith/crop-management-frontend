@@ -666,26 +666,18 @@
 
 <script>
 
-document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('dashboard-calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next', // Only show navigation buttons
-                center: 'title',
-                right: ''
-            },
-            initialDate: new Date(),
-            contentHeight: 250, // Reduce height
-            aspectRatio: 1.5,   // Adjust aspect ratio for smaller size
-            events: [
-                // Example events
-                { title: 'Event 1', start: '2024-11-25' },
-                { title: 'Event 2', start: '2024-11-27' }
-            ]
-        });
-        calendar.render();
-    });
+function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("refreshToken"); // If using refresh tokens
+  Swal.fire({
+    title: 'Logged Out!',
+    text: 'You will be redirected to the login page.',
+    icon: 'info',
+    confirmButtonText: 'OK',
+  }).then(() => {
+    window.location.href = "/pages/signin.html"; // Redirect to login page
+  });
+}
     
     // Function to update the date and time dynamically
     function updateDateTime() {
