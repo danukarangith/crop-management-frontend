@@ -237,6 +237,9 @@ staffForm.addEventListener("submit", async (event) => {
                 text: 'Staff data has been successfully updated.',
                 confirmButtonText: 'OK',
             });
+
+            formMode = "ADD";
+            currentEditVehicleId = null;
         } else {
             // Add new staff
             await createStaff(staffData);
