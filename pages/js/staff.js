@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const addStaffBtn = document.getElementById("addStaffBtn");
     const closeModal = document.getElementById("closeModal");
     const cancelBtn = document.getElementById("cancelBtn");
-    const staffForm = document.getElementById("staffForm");
+    const staffForm = document.getElementById("staff-form");
 
     // Open Add Staff Popup
     addStaffBtn.addEventListener("click", function() {
@@ -77,24 +77,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Handling form submission (you can extend this based on actual submission logic)
-    staffForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        saveStaff(); // Call your save function
-    });
-
-
-
-    // const inputFields = document.querySelectorAll("#staffForm input, #staffForm select, #staffForm textarea");
-    // inputFields.forEach(field => {
-    //     field.addEventListener("focus", function(event) {
-    //         event.target.parentElement.classList.add('active'); // Add 'active' class on focus
-    //     });
-
-    //     field.addEventListener("blur", function(event) {
-    //         event.target.parentElement.classList.remove('active'); // Remove 'active' class on blur
-    //     });
+    // staffForm.addEventListener("submit", function(event) {
+    //     event.preventDefault();
+    //     saveStaff(); // Call your save function
     // });
 
-    // Function to save staff (for now, just logging data)
+
+
+     
      
 });
