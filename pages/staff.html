@@ -61,7 +61,7 @@
 						<ul class="list-unstyled">
 							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
 							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
-							<li class="list-group-item"><a href="auth-normal-sign-in.html"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+							<li class="list-group-item"><a href="/pages/signin.html"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
 						</ul>
 					</div>
 				</div>
@@ -88,20 +88,20 @@
 					<li class="nav-item pcoded-hasmenu">
 						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-align-justify"></i></span><span class="pcoded-mtext">Field</span></a>
 						<ul class="pcoded-submenu">
-							<li><a href="bc_alert.html">field </a></li>
+							<li><a href="/pages/field.html">field </a></li>
 							<li><a href="bc_alert.html">field staff</a></li>
 							 
 						</ul>
 					</li> 
 					 
 					<li class="nav-item">
-					    <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Staff</span></a>
+					    <a href="/pages/staff.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Staff</span></a>
 					</li>
 					<li class="nav-item pcoded-hasmenu">
 						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="fa fa-tree"></i></span><span class="pcoded-mtext">Crop Manage</span></a>
 						<ul class="pcoded-submenu">
 							<li><a href="/pages/crop.html">Crop </a></li>
-							<li><a href="bc_alert.html">Crop Details</a></li>
+							<li><a href="/pages/cropDetails.html">Crop Details</a></li>
 							 
 						</ul>
 					</li>
@@ -109,10 +109,10 @@
 						<label>Chart & Maps</label>
 					</li> -->
 					<li class="nav-item">
-					    <a href="chart-apex.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-car"></i></span><span class="pcoded-mtext">Vehicle</span></a>
+					    <a href="/pages/vehicle.html" class="nav-link "><span class="pcoded-micon"><i class="fa fa-car"></i></span><span class="pcoded-mtext">Vehicle</span></a>
 					</li>
 					<li class="nav-item">
-					    <a href="map-google.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Equipment</span></a>
+					    <a href="/pages/equipment.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Equipment</span></a>
 					</li>
 					<li class="nav-item pcoded-menu-caption">
 						<label>Pages</label>
@@ -361,81 +361,82 @@
                                     <h2>Add Staff</h2>
 									<hr>
                                    
-                                    <form id="staffForm">
-                                         
-                                        <div class="form-row">
-                                            <label for="firstName">First Name</label>
-                                            <input type="text" id="firstName" name="firstName" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="lastName">Last Name</label>
-                                            <input type="text" id="lastName" name="lastName" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="designation">Designation</label>
+									<form id="staff-form" class="staff-form">
+										<div class="form-row">
+											<label for="first_name">First Name</label>
+											<input type="text" id="first_name" name="first_name" required>
+										</div>
+										<div class="form-row">
+											<label for="last_name">Last Name</label>
+											<input type="text" id="last_name" name="last_name" required>
+										</div>
+										<div class="form-row">
+											<label for="designation">Designation</label>
 											<select id="designation" name="designation" required>
 												<option value="MANAGER">Manager</option>
 												<option value="WORKER">Worker</option>
 												<option value="SUPERVISOR">Supervisor</option>
 												<option value="TECHNICIAN">Technician</option>
 											</select>
-                                             
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="gender">Gender</label>
-                                            <select id="gender" name="gender" required>
-                                                <option value="MALE">Male</option>
-                                                <option value="FEMALE">Female</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="joinedDate">Joined Date</label>
-                                            <input type="date" id="joinedDate" name="joinedDate" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="dob">DOB</label>
-                                            <input type="date" id="dob" name="dob" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="addressLine1">Address Line 1</label>
-                                            <input type="text" id="addressLine1" name="addressLine1" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="addressLine2">Address Line 2</label>
-                                            <input type="text" id="addressLine2" name="addressLine2" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="addressLine3">Address Line 3</label>
-                                            <input type="text" id="addressLine3" name="addressLine3" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="addressLine4">Address Line 4</label>
-                                            <input type="text" id="addressLine4" name="addressLine4" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="addressLine5">Address Line 5</label>
-                                            <input type="text" id="addressLine5" name="addressLine5" required>
-                                        </div>
-                                        
-                                        <div class="form-row">
-                                            <label for="contactNo">Contact No</label>
-                                            <input type="tel" id="contactNo" name="contactNo" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="email">Email</label>
-                                            <input type="email" id="email" name="email" required>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="role">Role</label>
-                                            <select id="role" name="role" required>
-                                                <option value="MANAGER">Manager</option>
-                                                <option value="ADMINISTRATIVE">Administrative</option>
-                                                <option value="SCIENTIST">Scientist</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button type="submit" id="saveButton" class="save-btn">Save</button>
-                                            <button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
+										</div>
+										<div class="form-row">
+											<label for="gender">Gender</label>
+											<select id="gender" name="gender" required>
+												<option value="MALE">Male</option>
+												<option value="FEMALE">Female</option>
+											</select>
+										</div>
+										<div class="form-row">
+											<label for="joined_date">Joined Date</label>
+											<input type="date" id="joined_date" name="joined_date" required>
+										</div>
+										<div class="form-row">
+											<label for="dob">DOB</label>
+											<input type="date" id="dob" name="dob" required>
+										</div>
+										<div class="form-row">
+											<label for="address_line1">Address Line 1</label>
+											<input type="text" id="address_line1" name="address_line1" required>
+										</div>
+										<div class="form-row">
+											<label for="address_line2">Address Line 2</label>
+											<input type="text" id="address_line2" name="address_line2" required>
+										</div>
+										<div class="form-row">
+											<label for="address_line3">Address Line 3</label>
+											<input type="text" id="address_line3" name="address_line3" required>
+										</div>
+										<div class="form-row">
+											<label for="address_line4">Address Line 4</label>
+											<input type="text" id="address_line4" name="address_line4" required>
+										</div>
+										<div class="form-row">
+											<label for="address_line5">Address Line 5</label>
+											<input type="text" id="address_line5" name="address_line5" required>
+										</div>
+										<div class="form-row">
+											<label for="contact_no">Contact No</label>
+											<input type="tel" id="contact_no" name="contact_no" required>
+										</div>
+										<div class="form-row">
+											<label for="email">Email</label>
+											<input type="email" id="email" name="email" required>
+										</div>
+										<div class="form-row">
+											<label for="role">Role</label>
+											<select id="role" name="role" required>
+												<option value="MANAGER">Manager</option>
+												<option value="ADMINISTRATOR">Administrative</option>
+												<option value="SCIENTIST">Scientist</option>
+												<option value="OTHER">other</option>
+											</select>
+										</div>
+										<div class="form-actions">
+											<button type="submit" id="saveButton" class="save-btn">Save</button>
+											<button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
+										</div>
+									</form>
+									
                                         </div>
                                     </form>
                                 </div>
