@@ -12,7 +12,7 @@
     <!-- Favicon icon -->
     <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/pages/style/vehicle.css">
+    <link rel="stylesheet" href="/pages/style/staff.css">
 	 <!-- vendor css -->
 	 <link rel="stylesheet" href="/assets/css/style.css">
     <style>
@@ -322,7 +322,7 @@
 						<div class="container">
 							<header class="header">
 								<h1>Vehicle Manage Window</h1>
-								<button class="button primary" id="openModal">+ Add Vehicle</button>
+								<button id="addStaffBtn" class="add-button">+ Add Vehicle</button>
 							</header>
 					
 							<div class="loading-spinner" id="loadingSpinner" style="display: none;">
@@ -330,60 +330,10 @@
 								<p>Loading...</p>
 							</div>
 					
-							<div class="modal" id="vehicleModal">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h2>Add Vehicle</h2>
-										<button class="close-modal" id="closeModal">&times;</button>
-									</div>
-									<div class="modal-body">
-										<form id="vehicleForm">
-											<div class="form-group">
-												<label for="vehicleCode">Vehicle Code</label>
-												<input type="text" id="vehicleCode" placeholder="Enter vehicle code" required>
-											</div>
-											<div class="form-group">
-												<label for="fuelType">Fuel Type</label>
-												<input type="text" id="fuelType" placeholder="Enter fuel type" required>
-											</div>
-											<div class="form-group">
-												<label for="plateNumber">Plate Number</label>
-												<input type="text" id="plateNumber" placeholder="Enter plate number" required>
-											</div>
-											<div class="form-group">
-												<label for="remarks">Remarks</label>
-												<textarea id="remarks" rows="3" placeholder="Optional remarks"></textarea>
-											</div>
-											<div class="form-group">
-												<label for="status">Status</label>
-												<select id="status" required>
-													<option value="">Select Status</option>
-													<option value="AVAILABLE">Available</option>
-													<option value="UNAVAILABLE">Unavailable</option>
-													 
-												</select>
-											</div>
-											<div class="form-group">
-												<label for="category">Category</label>
-												<input type="text" id="category" placeholder="Enter category" required>
-											</div>
-											<div class="form-group">
-												<label for="staffId">Staff ID</label>
-												<input type="text" id="staffId" placeholder="Enter staff ID" required>
-											</div>
-										</form>
-									</div>
-									<div class="modal-footer">
-										<button class="button secondary close-modal" style="background-color: #c82333;color: white;">Cancel</button>
-										<button class="button primary" id="saveButton" style="background-color: #0056b3;">Save</button>
-									</div>
-								</div>
-							</div>
-					
-							<div class="table-container">
-								<table>
-									<thead>
-										<tr>
+                            <div class="table-container">
+                                <table id="vehicleTable">
+                                    <thead>
+                                        <tr>
 											<th>Vehicle Code</th>
 											<th>Fuel Type</th>
 											<th>Plate Number</th>
@@ -392,13 +342,59 @@
 											<th>Category</th>
 											<th>Staff ID</th>
 											<th>Actions</th>
-										</tr>
-									</thead>
-									<tbody id="vehicleTableBody">
-										<!-- Dynamic Content -->
-									</tbody>
-								</table>
-							</div>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data rows will go here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                    
+                            <!-- Add Staff Form (Popup) -->
+                            <div id="popupForm" class="popup">
+                                <div class="popup-content">
+                                     <button class="close-modal" id="closeModal">&times;</button>
+                                    <h2>Add Vehicle</h2>
+									<hr>
+                                   
+									<form id="vehicle-form" class="vehicle-form">
+										<div class="form-row">
+											<label for="fuelType">Fuel Type</label>
+											<input type="text" id="fuelType" name="fuelType" required>
+										</div>
+										<div class="form-row">
+											<label for="plateNumber">Plate Numbe</label>
+											<input type="text" id="plateNumber" name="plateNumber" required>
+										</div>
+										 
+										<div class="form-row">
+											<label for="remarks">Remarks</label>
+											<input type="text" id="remarks" name="remarks" required>
+										</div>
+										<div class="form-row">
+											<label for="status">Status</label>
+											<input type="text" id="status" name="status" required>
+										</div>
+										 
+										<div class="form-row">
+											<label for="category"> Vehicle Category</label>
+											<input type="text" id="category" name="category" required>
+										</div>
+										<div class="form-row">
+											<label for="staffId">Staff ID</label>
+											<input type="text" id="staffId" name="staffId" required>
+										</div>
+										 
+										<div class="form-actions">
+											<button type="submit" id="saveButton" class="save-btn">Save</button>
+											<button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
+										</div>
+									</form>
+									
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
 						</div>
             </div>
             <!-- [ sample-page ] end -->
@@ -431,9 +427,10 @@
  
     <!-- Required Js -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script> -->
+	 <script src="/pages/js/vehiclemode.js"></script> 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     <script src="/pages/js/vehicle.js"></script>
+     <script src="/pages/js/staff.js"></script>
     <script src="/assets/js/vendor-all.min.js"></script>
     <script src="/assets/js/plugins/bootstrap.min.js"></script>
     <script src="/assets/js/pcoded.min.js"></script>
