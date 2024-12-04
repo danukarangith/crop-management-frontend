@@ -314,13 +314,23 @@
 						<div class="container">
 							<header class="header">
 								<h1>Vehicle Manage Window</h1>
+								
 								<button id="addStaffBtn" class="add-button">+ Add Vehicle</button>
+								<!-- <button id="toggleSortBtn" onclick="toggleSort()">Toggle Active/Non-Active</button> -->
+								
+								
+
 							</header>
 					
 							<div class="loading-spinner" id="loadingSpinner" style="display: none;">
 								<div class="spinner"></div>
 								<p>Loading...</p>
 							</div>
+							<label for="vehicleStatusSelect" id="vehicleStatusLabel">sort by status</label>
+								<select id="vehicleStatusSelect" onchange="toggleSort()">
+									<option value="active">Active First</option>
+									<option value="nonActive">Non-Active First</option>
+								</select>
 					
                             <div class="table-container">
                                 <table id="vehicleTable">
