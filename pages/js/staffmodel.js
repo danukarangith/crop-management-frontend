@@ -264,7 +264,7 @@ staffForm.addEventListener("submit", async (event) => {
         });
     }
 });
-
+    
 window.editStaff = async (staffId) => {
     try {
         console.log("Fetching staff data for ID:", staffId);
