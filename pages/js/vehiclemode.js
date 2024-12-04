@@ -92,31 +92,92 @@ const updateVehicle = async (vehicleId, vehicleData) => {
 };
 
 // Delete Vehicle (DELETE)
+// const deleteVehicle = async (vehicleId) => {
+//     const token = getToken();
+//     const headers = {
+//         "Content-Type": "application/json",
+//         "Authorization": `Bearer ${token}`,
+//     };
+
+//     const response = await fetch(`${API_BASE_URL}/${vehicleId}`, {
+//         method: "DELETE",
+//         headers,
+//     });
+
+//     if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
+
+//     Swal.fire({
+//         icon: "success",
+//         title: "Deleted!",
+//         text: "Vehicle has been successfully deleted.",
+//         confirmButtonText: "OK",
+//     }).then(() => {
+//         renderVehicleTable();
+//     });
+// };
+
+
 const deleteVehicle = async (vehicleId) => {
-    const token = getToken();
-    const headers = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-    };
-
-    const response = await fetch(`${API_BASE_URL}/${vehicleId}`, {
-        method: "DELETE",
-        headers,
-    });
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
+    // Show confirmation dialog
     Swal.fire({
-        icon: "success",
-        title: "Deleted!",
-        text: "Vehicle has been successfully deleted.",
-        confirmButtonText: "OK",
-    }).then(() => {
-        renderVehicleTable();
+        title: "Are you sure?",
+        text: "You won't be able to undo this action!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            // Proceed with deletion if user clicks "Yes"
+            try {
+                const token = getToken();
+                const headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                };
+
+                const response = await fetch(`${API_BASE_URL}/${vehicleId}`, {
+                    method: "DELETE",
+                    headers,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Deleted!",
+                    text: "Vehicle has been successfully deleted.",
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    renderVehicleTable();  // Refresh the table after deletion
+                });
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: `Failed to delete the vehicle. ${error.message}`,
+                    confirmButtonText: "OK",
+                });
+            }
+        } else {
+            // If user clicks "No", do nothing (alert will close)
+            Swal.fire({
+                icon: "info",
+                title: "Cancelled",
+                text: "The vehicle deletion was cancelled.",
+                confirmButtonText: "OK",
+            });
+        }
     });
 };
+
+
+
 
 // Elements
 const addVehicleBtn = document.getElementById("addVehicleBtn");
@@ -166,8 +227,10 @@ const renderVehicleTable = async () => {
                     <td>${vehicle.vehicleCategory}</td>
                     <td>${vehicle.staffId}</td>
                     <td>
+                         <button class="view-btn" onclick="viewVehicle('${vehicle.vehicleCode}')">View</button>
                         <button class="edit-btn" onclick="editVehicle('${vehicle.vehicleCode}')">Edit</button>
                         <button class="delete-btn" onclick="deleteVehicle('${vehicle.vehicleCode}')">Delete</button>
+                         <button class="download-btn" onclick="downloadVehicleData('${vehicle.vehicleCode}')">Download</button>
                     </td>
                 </tr>
             `;
@@ -185,13 +248,63 @@ const renderVehicleTable = async () => {
 vehicleForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    // Get the form values
+    const fuelType = document.getElementById("fuelType").value;
+    const licensePlateNumber = document.getElementById("plateNumber").value;
+    const remarks = document.getElementById("remarks").value;
+    const status = document.getElementById("status").value;
+    const vehicleCategory = document.getElementById("category").value;
+    const staffId = document.getElementById("staffId").value;
+
+    // Simple validation
+    let validationError = false;
+    let errorMessage = "";
+
+    if (!fuelType) {
+        validationError = true;
+        errorMessage = "Fuel type is required.";
+    } else if (!licensePlateNumber) {
+        validationError = true;
+        errorMessage = "License plate number is required.";
+    } else if (licensePlateNumber.length < 5) {
+        validationError = true;
+        errorMessage = "License plate number must be at least 5 characters long.";
+    } else if (!status) {
+        validationError = true;
+        errorMessage = "Status is required.";
+    } else if (!vehicleCategory) {
+        validationError = true;
+        errorMessage = "Vehicle category is required.";
+    } else if (!staffId) {
+        validationError = true;
+        errorMessage = "Staff ID is required.";
+    } else if (remarks.length > 200) {
+        validationError = true;
+        errorMessage = "Remarks cannot exceed 200 characters.";
+    }
+
+    if (validationError) {
+        // Show validation error message
+        Swal.fire({
+            icon: "error",
+            title: "Validation Error",
+            text: errorMessage,
+            confirmButtonText: "OK",
+            customClass: {
+                popup: 'swal-popup-front'  // This will apply custom styling to SweetAlert
+            }
+        });
+        
+        return; // Stop form submission if validation fails
+    }
+
     const vehicleData = {
-        fuelType: document.getElementById("fuelType").value,
-        licensePlateNumber: document.getElementById("plateNumber").value,
-        remarks: document.getElementById("remarks").value,
-        status: document.getElementById("status").value,
-        vehicleCategory: document.getElementById("category").value,
-        staffId: document.getElementById("staffId").value,
+        fuelType,
+        licensePlateNumber,
+        remarks,
+        status,
+        vehicleCategory,
+        staffId,
     };
 
     try {
@@ -256,6 +369,103 @@ window.editVehicle = async (vehicleId) => {
         });
     }
 };
+
+// View Vehicle (GET)
+window.viewVehicle = async (vehicleId) => {
+    try {
+        const vehicle = await getSingleVehicle(vehicleId);
+        
+        // Show detailed information about the vehicle
+        Swal.fire({
+            title: `Vehicle Details: ${vehicleId}`,
+            html: `
+                <p><strong>Fuel Type:</strong> ${vehicle.fuelType}</p>
+                <p><strong>License Plate Number:</strong> ${vehicle.licensePlateNumber}</p>
+                <p><strong>Remarks:</strong> ${vehicle.remarks}</p>
+                <p><strong>Status:</strong> ${vehicle.status}</p>
+                <p><strong>Category:</strong> ${vehicle.vehicleCategory}</p>
+                <p><strong>Staff ID:</strong> ${vehicle.staffId}</p>
+            `,
+            confirmButtonText: "Close"
+        });
+    } catch (error) {
+        console.error("Error fetching vehicle data:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to fetch vehicle data. Please try again.",
+            confirmButtonText: "OK"
+        });
+    }
+};
+// Show a modal for View/Edit/Delete actions
+const showModal = (action, vehicleId) => {
+    switch (action) {
+        case "VIEW":
+            viewVehicle(vehicleId);
+            break;
+        case "EDIT":
+            editVehicle(vehicleId);
+            break;
+        case "DELETE":
+            deleteVehicle(vehicleId);
+            break;
+        default:
+            console.error("Unknown action: ", action);
+    }
+};
+// Convert an array of objects (vehicle data) to CSV
+const convertToCSV = (data) => {
+    // Get the headers (keys of the first object)
+    const headers = Object.keys(data[0]);
+    
+    // Create the CSV header row
+    const headerRow = headers.join(",") + "\n";
+    
+    // Map the data rows and join them with commas
+    const dataRows = data.map((row) => {
+        return headers.map((header) => row[header]).join(",");
+    }).join("\n");
+    
+    // Return the complete CSV string
+    return headerRow + dataRows;
+};
+
+
+// Download Vehicle Data for a specific vehicle
+const downloadVehicleData = async (vehicleId) => {
+    try {
+        // Fetch the data for the specific vehicle
+        const vehicle = await getSingleVehicle(vehicleId);
+
+        // Convert the data to CSV format
+        const csvData = convertToCSV([vehicle]);  // Wrap the vehicle in an array
+
+        // Create a Blob from the CSV data
+        const blob = new Blob([csvData], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `vehicle_${vehicleId}_data.csv`;  // Filename for the downloaded file
+        a.click();
+
+        // Clean up by revoking the URL
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Error generating vehicle data CSV:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to generate CSV for this vehicle. Please try again.",
+            confirmButtonText: "OK",
+        });
+    }
+};
+
+
+
 
 // Event Listeners
 closeModal.addEventListener("click", hidePopup);
