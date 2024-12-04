@@ -590,7 +590,7 @@ table th, table td {
 
 table th {
     background-color: #f4f4f4; /* Background for the sticky header */
-    position: sticky; /* Make the header sticky */
+    /* position: sticky; */
     top: 0; /* Stick the header to the top of the container */
     z-index: 2; /* Ensure the header stays above the data rows */
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -603,6 +603,55 @@ table th {
 #popupForm {
     z-index: 1000; /* You can adjust this value as needed */
 }
+
+/* Label Styling */
+#vehicleStatusLabel {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    /* display: block; */
+    margin-top: 10px;
+}
+
+/* Select Box Styling */
+#vehicleStatusSelect {
+    background-color: #fff; /* White background */
+    color: #333; /* Dark text color */
+    border: 1px solid #ccc; /* Light gray border */
+    padding: 10px 15px; /* Padding for spacing */
+    font-size: 14px;
+    font-weight: bolder; /* Font size */
+    border-radius: 5px; /* Rounded corners */
+    width: 200px; /* Set fixed width */
+    cursor: pointer; /* Pointer cursor for interaction */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for border and shadow */
+}
+
+/* Focused State */
+#vehicleStatusSelect:focus {
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /* Soft green glow effect */
+    outline: none; /* Remove default outline */
+}
+
+/* Hover Effect */
+#vehicleStatusSelect:hover {
+    border-color: #66bb6a; /* Slightly darker green on hover */
+}
+
+/* Option Styling */
+#vehicleStatusSelect option {
+    padding: 10px; /* Add padding to options for better clickability */
+    background-color: #f9f9f9; /* Light gray background for options */
+}
+
+/* Option Hover Effect */
+#vehicleStatusSelect option:hover {
+    background-color: #e0f7fa; /* Light blue background on hover */
+}
+
  
+
 
  
