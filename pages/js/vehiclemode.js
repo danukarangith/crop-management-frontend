@@ -210,10 +210,68 @@ const hidePopup = () => {
 };
 
 // Render Vehicle Table
+// const renderVehicleTable = async () => {
+//     try {
+//         toggleLoading(true);
+//         const vehicleList = await getAllVehicles();
+//         vehicleTableBody.innerHTML = ""; // Clear the table
+
+//         vehicleList.forEach((vehicle) => {
+//             const row = `
+//                 <tr>
+//                     <td>${vehicle.vehicleCode}</td>
+//                     <td>${vehicle.fuelType}</td>
+//                     <td>${vehicle.licensePlateNumber}</td>
+//                     <td>${vehicle.remarks}</td>
+//                     <td>${vehicle.status}</td>
+//                     <td>${vehicle.vehicleCategory}</td>
+//                     <td>${vehicle.staffId}</td>
+//                     <td>
+//                          <button class="view-btn" onclick="viewVehicle('${vehicle.vehicleCode}')">View</button>
+//                         <button class="edit-btn" onclick="editVehicle('${vehicle.vehicleCode}')">Edit</button>
+//                         <button class="delete-btn" onclick="deleteVehicle('${vehicle.vehicleCode}')">Delete</button>
+//                          <button class="download-btn" onclick="downloadVehicleData('${vehicle.vehicleCode}')">Download</button>
+//                     </td>
+//                 </tr>
+//             `;
+//             vehicleTableBody.innerHTML += row;
+//         });
+//     } catch (error) {
+//         console.error("Error loading vehicle data:", error);
+//         alert("Failed to load vehicle data.");
+//     } finally {
+//         toggleLoading(false);
+//     }
+// };
+
+// Sort vehicles by vehicleType
+// Sort vehicles by status (Active first, then Non-Active)
+let isActiveFirst = true; // Declare this variable globally
+
+// Function to sort vehicles based on status
+const sortVehiclesByStatus = (vehicles) => {
+    return vehicles.sort((a, b) => {
+        const statusA = a.status === 'Active' ? 1 : 0;
+        const statusB = b.status === 'Active' ? 1 : 0;
+        
+        // Toggle sorting based on the isActiveFirst value
+        if (isActiveFirst) {
+            return statusB - statusA; // Active vehicles first
+        } else {
+            return statusA - statusB; // Non-active vehicles first
+        }
+    });
+};
+
+// Render Vehicle Table with Sorting
 const renderVehicleTable = async () => {
     try {
         toggleLoading(true);
-        const vehicleList = await getAllVehicles();
+        let vehicleList = await getAllVehicles();
+        
+        // Sort the vehicle list based on the active/non-active status
+        vehicleList = sortVehiclesByStatus(vehicleList);
+
         vehicleTableBody.innerHTML = ""; // Clear the table
 
         vehicleList.forEach((vehicle) => {
@@ -227,10 +285,10 @@ const renderVehicleTable = async () => {
                     <td>${vehicle.vehicleCategory}</td>
                     <td>${vehicle.staffId}</td>
                     <td>
-                         <button class="view-btn" onclick="viewVehicle('${vehicle.vehicleCode}')">View</button>
+                        <button class="view-btn" onclick="viewVehicle('${vehicle.vehicleCode}')">View</button>
                         <button class="edit-btn" onclick="editVehicle('${vehicle.vehicleCode}')">Edit</button>
                         <button class="delete-btn" onclick="deleteVehicle('${vehicle.vehicleCode}')">Delete</button>
-                         <button class="download-btn" onclick="downloadVehicleData('${vehicle.vehicleCode}')">Download</button>
+                        <button class="download-btn" onclick="downloadVehicleData('${vehicle.vehicleCode}')">Download</button>
                     </td>
                 </tr>
             `;
@@ -243,6 +301,13 @@ const renderVehicleTable = async () => {
         toggleLoading(false);
     }
 };
+const toggleSort = () => {
+    isActiveFirst = !isActiveFirst; // Toggle the sorting order
+    renderVehicleTable(); // Re-render the table with the new order
+};
+
+
+
 
 // Save or Update Vehicle
 vehicleForm.addEventListener("submit", async (event) => {
@@ -473,3 +538,6 @@ cancelBtn.addEventListener("click", hidePopup);
 
 // Load table data on page load
 document.addEventListener("DOMContentLoaded", renderVehicleTable);
+// Event listener to handle sorting change
+document.getElementById("sortBy").addEventListener("change", renderVehicleTable);
+
