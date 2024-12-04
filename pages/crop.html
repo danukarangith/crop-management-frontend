@@ -73,15 +73,7 @@
 					<li class="nav-item">
 					    <a href="/index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
 					</li>
-					<li class="nav-item pcoded-hasmenu">
-					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Log details</span></a>
-					    <ul class="pcoded-submenu">
-					        <li><a href="layout-vertical.html" target="_blank">log Staff</a></li>
-					        <li><a href="layout-horizontal.html" target="_blank">log Field</a></li>
-					        <li><a href="layout-horizontal.html" target="_blank">log Crop</a></li>
-
-					    </ul>
-					</li>
+					 
 					<li class="nav-item pcoded-menu-caption">
 						<label>other controllers</label>
 					</li>
@@ -89,7 +81,7 @@
 						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-align-justify"></i></span><span class="pcoded-mtext">Field</span></a>
 						<ul class="pcoded-submenu">
 							<li><a href="/pages/field.html">field </a></li>
-							<li><a href="bc_alert.html">field staff</a></li>
+							 
 							 
 						</ul>
 					</li> 
@@ -331,7 +323,7 @@
 							</div>
 					
                             <div class="table-container">
-                                <table id="staffTable">
+                                <table id="cropTable">
                                     <thead>
                                         <tr>
 											<th>Crop Code</th>
@@ -357,7 +349,7 @@
                                     <h2>Add Crop</h2>
 									<hr>
                                    
-                                    <form id="staffForm">
+                                    <form id="cropForm">
                                          
                                         <div class="form-row">
                                             <label for="firstName">Common Name</label>
@@ -408,21 +400,21 @@
 
 <script>
 
-function previewImage(event) {
-    const imagePreview = document.getElementById('imagePreview');
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            imagePreview.src = e.target.result;
-            imagePreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    } else {
-        imagePreview.src = '';
-        imagePreview.style.display = 'none';
-    }
-}
+// function previewImage(event) {
+//     const imagePreview = document.getElementById('imagePreview');
+//     const file = event.target.files[0];
+//     if (file) {
+//         const reader = new FileReader();
+//         reader.onload = function (e) {
+//             imagePreview.src = e.target.result;
+//             imagePreview.style.display = 'block';
+//         };
+//         reader.readAsDataURL(file);
+//     } else {
+//         imagePreview.src = '';
+//         imagePreview.style.display = 'none';
+//     }
+// }
     // Function to update the date and time dynamically
     function updateDateTime() {
         const dateTimeElement = document.getElementById('dateTime');
@@ -445,6 +437,7 @@ function previewImage(event) {
     <!-- Required Js -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script> -->
 	 
+	<script src="/pages/js/cropmodel.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script src="/pages/js/staff.js"></script>
