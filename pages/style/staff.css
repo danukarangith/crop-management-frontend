@@ -684,6 +684,63 @@ table th {
 }
 
 
+/* Container for buttons */
+td button {
+    font-size: 12px; /* Smaller font size for buttons */
+    padding: 5px 10px; /* Small padding for a compact look */
+    margin: 0 5px; /* Space between buttons */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Change cursor to pointer when hovering over the button */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+/* Button styles */
+.sview-btn {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+}
+
+.sview-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.sedit-btn {
+    background-color: #FFA500; /* Orange background */
+    color: white;
+    border: none;
+}
+
+.sedit-btn:hover {
+    background-color: #e68900; /* Darker orange on hover */
+}
+
+.sdelete-btn {
+    background-color: #f44336; /* Red background */
+    color: white;
+    border: none;
+}
+
+.sdelete-btn:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+.sdownload-btn {
+    background-color: #2196F3; /* Blue background */
+    color: white;
+    border: none;
+}
+
+.sdownload-btn:hover {
+    background-color: #1976D2; /* Darker blue on hover */
+}
+
+/* Ensure buttons appear in a line */
+td {
+    white-space: nowrap; /* Prevent buttons from wrapping to the next line */
+}
+
+
  
 
 

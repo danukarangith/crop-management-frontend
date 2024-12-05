@@ -191,10 +191,10 @@ const renderStaffTable = async () => {
                     <td>${staff.email}</td>
                     <td>${staff.role}</td>
                     <td>
-                     <button class="view-btn" onclick="viewStaff('${staff.staffId}')" >View</button>
-                        <button class="edit-btn" onclick="editStaff('${staff.staffId}')">Edit</button>
-                        <button class="delete-btn" onclick="deleteStaff('${staff.staffId}')">Delete</button>
-                          <button class="download-btn" onclick="downloadstaffData('${staff.staffId}')">Download</button>
+                     <button class="sview-btn" onclick="viewStaff('${staff.staffId}')" >View</button>
+                        <button class="sedit-btn" onclick="editStaff('${staff.staffId}')">Edit</button>
+                        <button class="sdelete-btn" onclick="deleteStaff('${staff.staffId}')">Delete</button>
+                          <button class="sdownload-btn" onclick="downloadstaffData('${staff.staffId}')">Download</button>
                     </td>
                 </tr>
             `;
@@ -202,6 +202,8 @@ const renderStaffTable = async () => {
             const viewButton = staffTableBody.querySelector(`button[onclick="viewStaff('${staff.staffId}')"]`);
             viewButton.style.marginBottom = "5px";
             viewButton.style.marginLeft = "5px";
+
+             
         });
     } catch (error) {
         console.error("Error loading staff data:", error);
