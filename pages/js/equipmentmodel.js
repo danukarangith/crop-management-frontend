@@ -146,12 +146,81 @@ const showPopup = (mode = "ADD", equipmentId = null) => {
 const hidePopup = () => {
     popupForm.style.display = "none";
 };
+let isMechanicalFirst = true; // Declare this variable globally to toggle sorting by type
+
+// Function to sort equipment based on type (Mechanical, Electrical, etc.)
+const sortEquipmentByType = (equipment) => {
+    return equipment.sort((a, b) => {
+        const typeA = a.type.trim().toLowerCase();
+        const typeB = b.type.trim().toLowerCase();
+
+        // Prioritize "Mechanical" first when isMechanicalFirst is true, otherwise prioritize "Electrical"
+        if (isMechanicalFirst) {
+            // If both types are "mechanical" or both are "electrical", compare alphabetically
+            if (typeA === "mechanical" && typeB !== "mechanical") return -1; // Mechanical first
+            if (typeB === "mechanical" && typeA !== "mechanical") return 1;  // Mechanical first
+            return typeA.localeCompare(typeB); // Default alphabetical comparison for other types
+        } else {
+            // If both types are "mechanical" or both are "electrical", compare alphabetically
+            if (typeA === "electrical" && typeB !== "electrical") return -1; // Electrical first
+            if (typeB === "electrical" && typeA !== "electrical") return 1;  // Electrical first
+            return typeA.localeCompare(typeB); // Default alphabetical comparison for other types
+        }
+    });
+};
 
 // Render Equipment Table
+// const renderEquipmentTable = async () => {
+//     try {
+//         toggleLoading(true);
+//         const equipmentList = await getAllEquipment();
+//         equipmentTableBody.innerHTML = ""; // Clear the table
+
+//         equipmentList.forEach((equipment) => {
+//             const row = `
+//                 <tr>
+//                     <td>${equipment.equipmentId}</td>
+//                     <td>${equipment.name}</td>
+//                     <td>${equipment.type}</td>
+//                     <td>${equipment.status}</td>
+//                     <td>${equipment.staffId}</td>
+//                     <td>${equipment.fieldCode}</td>
+//                     <td>
+//                          <button class="view-btn" onclick="viewEquipment('${equipment.equipmentId}')">View</button>
+//                         <button class="edit-btn" onclick="editEquipment('${equipment.equipmentId}')">Edit</button>
+//                         <button class="delete-btn" onclick="deleteEquipment('${equipment.equipmentId}')">Delete</button>
+//                         <button class="download-btn" onclick="downloadEquipmenteData('${equipment.equipmentId}')">Download</button>
+//                     </td>
+//                 </tr>
+//             `;
+//             equipmentTableBody.innerHTML += row;
+//         });
+//     } catch (error) {
+//         console.error("Error loading equipment data:", error);
+//         alert("Failed to load equipment data.");
+//     } finally {
+//         toggleLoading(false);
+//     }
+// };
+
+// Render Equipment Table with Sorting by Type
+// Render Equipment Table with Sorting by Type
 const renderEquipmentTable = async () => {
     try {
         toggleLoading(true);
-        const equipmentList = await getAllEquipment();
+        let equipmentList = await getAllEquipment(); // Fetch all equipment data
+
+        // Get selected equipment type from the dropdown
+        const selectedType = document.getElementById("equipmentTypeSelector").value;
+
+        // Filter equipment by selected type (if any)
+        if (selectedType !== "ALL") {
+            equipmentList = equipmentList.filter(equipment => equipment.type === selectedType);
+        }
+
+        // Sort the equipment list based on equipment type
+        equipmentList = sortEquipmentByType(equipmentList);
+
         equipmentTableBody.innerHTML = ""; // Clear the table
 
         equipmentList.forEach((equipment) => {
@@ -164,10 +233,10 @@ const renderEquipmentTable = async () => {
                     <td>${equipment.staffId}</td>
                     <td>${equipment.fieldCode}</td>
                     <td>
-                         <button class="view-btn" onclick="viewEquipment('${equipment.equipmentId}')">View</button>
+                        <button class="view-btn" onclick="viewEquipment('${equipment.equipmentId}')">View</button>
                         <button class="edit-btn" onclick="editEquipment('${equipment.equipmentId}')">Edit</button>
                         <button class="delete-btn" onclick="deleteEquipment('${equipment.equipmentId}')">Delete</button>
-                        <button class="download-btn" onclick="downloadEquipmenteData('${equipment.equipmentId}')">Download</button>
+                        <button class="download-btn" onclick="downloadEquipmentData('${equipment.equipmentId}')">Download</button>
                     </td>
                 </tr>
             `;
@@ -179,6 +248,12 @@ const renderEquipmentTable = async () => {
     } finally {
         toggleLoading(false);
     }
+};
+
+
+const toggleSortingOrderByType = () => {
+    isMechanicalFirst = !isMechanicalFirst; // Toggle the sorting preference for equipment type
+    renderEquipmentTable(); // Re-render the table with the new sorting order
 };
 
 // Save or Update Equipment
