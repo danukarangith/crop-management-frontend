@@ -164,8 +164,10 @@ const renderEquipmentTable = async () => {
                     <td>${equipment.staffId}</td>
                     <td>${equipment.fieldCode}</td>
                     <td>
+                         <button class="view-btn" onclick="viewEquipment('${equipment.equipmentId}')">View</button>
                         <button class="edit-btn" onclick="editEquipment('${equipment.equipmentId}')">Edit</button>
                         <button class="delete-btn" onclick="deleteEquipment('${equipment.equipmentId}')">Delete</button>
+                        <button class="download-btn" onclick="downloadEquipmenteData('${equipment.equipmentId}')">Download</button>
                     </td>
                 </tr>
             `;
@@ -251,6 +253,111 @@ window.editEquipment = async (equipmentId) => {
         });
     }
 };
+
+// View Equipment (Details)
+window.viewEquipment = async (equipmentId) => {
+    try {
+        // Fetch equipment details using its ID
+        const equipment = await getSingleEquipment(equipmentId);
+
+        // Populate a modal or alert with the details
+
+        swal.fire({
+            title: `Vehicle Details: ${equipmentId}`,
+            html:`  <b>ID:</b> ${equipment.equipmentId}<br>
+            <b>Name:</b> ${equipment.name}<br>
+            <b>Type:</b> ${equipment.type}<br><strong>Equipment Details:</strong><br>
+            <b>Status:</b> ${equipment.status}<br>
+            <b>Staff ID:</b> ${equipment.staffId}<br>
+            <b>Field Code:</b> ${equipment.fieldCode}<br>  `,
+
+            confirmButtonText: "Close"
+
+        })
+         
+
+        
+        
+    } catch (error) {
+        console.error("Error viewing equipment data:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to fetch equipment details. Please try again.",
+            confirmButtonText: "OK",
+        });
+    }
+};
+
+const showModal = (action, equipmentId) => {
+    switch (action) {
+        case "VIEW":
+            viewEquipment(equipmentId);
+            break;
+        case "EDIT":
+            editEquipment(equipmentId);
+            break;
+        case "DELETE":
+            deleteEquipment(equipmentId);
+            break;
+        default:
+            console.error("Unknown action: ", action);
+    }
+};
+
+
+// Convert an array of objects (vehicle data) to CSV
+const convertToCSV = (data) => {
+    // Get the headers (keys of the first object)
+    const headers = Object.keys(data[0]);
+    
+    // Create the CSV header row
+    const headerRow = headers.join(",") + "\n";
+    
+    // Map the data rows and join them with commas
+    const dataRows = data.map((row) => {
+        return headers.map((header) => row[header]).join(",");
+    }).join("\n");
+    
+    // Return the complete CSV string
+    return headerRow + dataRows;
+};
+
+
+// Download Vehicle Data for a specific vehicle
+const downloadEquipmenteData = async (equipmentId) => {
+    try {
+        // Fetch the data for the specific vehicle
+        // const vehicle = await getSingleVehicle(equipmentId);
+        const equipment = await getSingleEquipment(equipmentId);
+
+        // Convert the data to CSV format
+        const csvData = convertToCSV([equipment]);  // Wrap the vehicle in an array
+
+        // Create a Blob from the CSV data
+        const blob = new Blob([csvData], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `equipment_${equipmentId}_data.csv`;  // Filename for the downloaded file
+        a.click();
+
+        // Clean up by revoking the URL
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Error generating vehicle data CSV:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to generate CSV for this vehicle. Please try again.",
+            confirmButtonText: "OK",
+        });
+    }
+};
+
+ 
 
 // Event Listeners
 closeModal.addEventListener("click", hidePopup);
