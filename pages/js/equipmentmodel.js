@@ -247,53 +247,7 @@ const toggleSortingOrderByType = () => {
     renderEquipmentTable(); // Re-render the table with the new sorting order
 };
 
-// Save or Update Equipment
-// equipmentForm.addEventListener("submit", async (event) => {
-//     event.preventDefault();
-
-//     const equipmentData = {
-//         name: document.getElementById("equipmentName").value,
-//         type: document.getElementById("equipmentType").value,
-//         status: document.getElementById("equipmentStatus").value,
-//         staffId: document.getElementById("staffId").value,
-//         fieldCode: document.getElementById("fieldCode").value,
-//     };
-
-//     try {
-//         if (formMode === "EDIT" && currentEditEquipmentId) {
-//             await updateEquipment(currentEditEquipmentId, equipmentData);
-//             Swal.fire({
-//                 icon: "success",
-//                 title: "Updated!",
-//                 text: "Equipment data has been successfully updated.",
-//                 confirmButtonText: "OK",
-//             });
-//             // Reset form mode after update
-//             formMode = "ADD";
-//             currentEditEquipmentId = null;
-//         } else {
-//             await createEquipment(equipmentData);
-//             Swal.fire({
-//                 icon: "success",
-//                 title: "Saved!",
-//                 text: "Equipment data has been successfully saved.",
-//                 confirmButtonText: "OK",
-//             });
-//         }
-
-//         renderEquipmentTable();
-//         hidePopup();
-//         equipmentForm.reset();
-//     } catch (error) {
-//         console.error("Error saving equipment:", error);
-//         Swal.fire({
-//             icon: "error",
-//             title: "Error",
-//             text: "Failed to save equipment data. Please try again.",
-//             confirmButtonText: "OK",
-//         });
-//     }
-// });
+ //save and update
 equipmentForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -303,7 +257,6 @@ equipmentForm.addEventListener("submit", async (event) => {
         status: document.getElementById("equipmentStatus").value,
         staffId: document.getElementById("staffId").value,
         fieldCode: document.getElementById("fieldCode").value,
-        
     };
 
     // Simple Validation
@@ -326,8 +279,9 @@ equipmentForm.addEventListener("submit", async (event) => {
     } else if (!equipmentData.fieldCode) {
         validationError = true;
         errorMessage = "Field code is required.";
-    }  
+    }
 
+    // If validation fails, show error message and stop the form submission
     if (validationError) {
         Swal.fire({
             icon: "error",
@@ -339,6 +293,7 @@ equipmentForm.addEventListener("submit", async (event) => {
     }
 
     try {
+        // Check if we are in EDIT mode and have the current edit ID
         if (formMode === "EDIT" && currentEditEquipmentId) {
             // Update equipment
             await updateEquipment(currentEditEquipmentId, equipmentData);
@@ -348,7 +303,7 @@ equipmentForm.addEventListener("submit", async (event) => {
                 text: "Equipment data has been successfully updated.",
                 confirmButtonText: "OK",
             });
-            // Reset form mode after update
+            // Reset form mode and edit ID after update
             formMode = "ADD";
             currentEditEquipmentId = null;
         } else {
@@ -365,7 +320,8 @@ equipmentForm.addEventListener("submit", async (event) => {
         // Re-render the table and reset the form
         renderEquipmentTable();
         hidePopup();
-        equipmentForm.reset();
+        equipmentForm.reset(); // Clear the form after submission
+
     } catch (error) {
         console.error("Error saving equipment:", error);
         Swal.fire({
@@ -376,6 +332,7 @@ equipmentForm.addEventListener("submit", async (event) => {
         });
     }
 });
+
 
 
 // Edit Equipment

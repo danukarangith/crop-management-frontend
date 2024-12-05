@@ -611,7 +611,7 @@ table th {
     color: #333;
     margin-bottom: 8px;
     /* display: block; */
-    margin-top: 10px;
+    /* margin-top: 2px; */
 }
 
 /* Select Box Styling */
@@ -650,6 +650,39 @@ table th {
 #vehicleStatusSelect option:hover {
     background-color: #e0f7fa; /* Light blue background on hover */
 }
+
+/* Style for the Equipment Type Selector */
+#equipmentTypeSelector {
+    width: 200px; /* Adjust width as needed */
+    padding: 10px; /* Adds padding for better readability */
+    border-radius: 5px; /* Smooth edges */
+    border: 1px solid #ccc; /* Light border color */
+    font-size: 16px; /* Adjust font size */
+    background-color: #fff; /* White background */
+    color: #333; /* Dark text color */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+}
+
+/* Focus effect when the dropdown is selected */
+#equipmentTypeSelector:focus {
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green shadow on focus */
+}
+
+/* Style the dropdown options */
+#equipmentTypeSelector option {
+    padding: 10px; /* Adds padding to each option */
+    font-size: 16px; /* Matches the font size of the dropdown */
+    background-color: #fff; /* White background for options */
+    color: #333; /* Dark text color */
+}
+
+/* Hover effect on options */
+#equipmentTypeSelector option:hover {
+    background-color: #f1f1f1; /* Light gray background on hover */
+}
+
 
  
 

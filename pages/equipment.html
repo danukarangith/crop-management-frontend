@@ -321,6 +321,13 @@
 								<div class="spinner"></div>
 								<p>Loading...</p>
 							</div>
+
+							<select id="equipmentTypeSelector" onchange="renderEquipmentTable()">
+								<option value="ALL">All</option>
+								<option value="MECHANICAL">Mechanical</option>
+								<option value="ELECTRICAL">Electrical</option>
+							</select>
+							
 					
                             <div class="table-container">
                                 <table id="staffTable">
@@ -352,7 +359,7 @@
                                          
                                         <div class="form-row">
                                             <label for="firstName">Equipment Name</label>
-                                            <input type="text" id="equipmentName" name="equipmentName" required>
+                                            <input type="text" id="equipmentName" name="equipmentName" >
                                         </div>
 										<div class="form-row">
                                             <label for="equipmentType">Equipment Type</label>
