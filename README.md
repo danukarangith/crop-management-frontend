@@ -31,4 +31,4 @@ Ensure you have the following before setting up the frontend:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/crop-management-frontend.git
+   git clone https://github.com/danukarangith/crop-management-frontend.git
