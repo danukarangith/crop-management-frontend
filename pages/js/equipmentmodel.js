@@ -91,32 +91,58 @@ const updateEquipment = async (equipmentId, equipmentData) => {
     }
 };
 
+ 
 // Delete Equipment (DELETE)
 const deleteEquipment = async (equipmentId) => {
-    const token = getToken();
-    const headers = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-    };
-
-    const response = await fetch(`${API_BASE_URL}/${equipmentId}`, {
-        method: "DELETE",
-        headers,
+    // Show confirmation alert
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true, // This places 'No' button first
     });
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+    // If user clicks 'Yes'
+    if (result.isConfirmed) {
+        const token = getToken();
+        const headers = {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        };
+
+        // Send DELETE request to the API
+        const response = await fetch(`${API_BASE_URL}/${equipmentId}`, {
+            method: "DELETE",
+            headers,
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Show success alert if equipment is deleted
+        Swal.fire({
+            icon: "success",
+            title: "Deleted!",
+            text: "Equipment has been successfully deleted.",
+            confirmButtonText: "OK",
+        }).then(() => {
+            renderEquipmentTable(); // Re-render the equipment table after deletion
+        });
+    } else {
+        // If user clicks 'No' or closes the alert, do nothing
+        Swal.fire({
+            icon: 'info',
+            title: 'Cancelled',
+            text: 'The equipment has not been deleted.',
+            confirmButtonText: 'OK'
+        });
     }
-
-    Swal.fire({
-        icon: "success",
-        title: "Deleted!",
-        text: "Equipment has been successfully deleted.",
-        confirmButtonText: "OK",
-    }).then(() => {
-        renderEquipmentTable();
-    });
 };
+
 
 // Elements
 const addEquipmentBtn = document.getElementById("addEquipmentBtn");
@@ -169,42 +195,7 @@ const sortEquipmentByType = (equipment) => {
     });
 };
 
-// Render Equipment Table
-// const renderEquipmentTable = async () => {
-//     try {
-//         toggleLoading(true);
-//         const equipmentList = await getAllEquipment();
-//         equipmentTableBody.innerHTML = ""; // Clear the table
-
-//         equipmentList.forEach((equipment) => {
-//             const row = `
-//                 <tr>
-//                     <td>${equipment.equipmentId}</td>
-//                     <td>${equipment.name}</td>
-//                     <td>${equipment.type}</td>
-//                     <td>${equipment.status}</td>
-//                     <td>${equipment.staffId}</td>
-//                     <td>${equipment.fieldCode}</td>
-//                     <td>
-//                          <button class="view-btn" onclick="viewEquipment('${equipment.equipmentId}')">View</button>
-//                         <button class="edit-btn" onclick="editEquipment('${equipment.equipmentId}')">Edit</button>
-//                         <button class="delete-btn" onclick="deleteEquipment('${equipment.equipmentId}')">Delete</button>
-//                         <button class="download-btn" onclick="downloadEquipmenteData('${equipment.equipmentId}')">Download</button>
-//                     </td>
-//                 </tr>
-//             `;
-//             equipmentTableBody.innerHTML += row;
-//         });
-//     } catch (error) {
-//         console.error("Error loading equipment data:", error);
-//         alert("Failed to load equipment data.");
-//     } finally {
-//         toggleLoading(false);
-//     }
-// };
-
-// Render Equipment Table with Sorting by Type
-// Render Equipment Table with Sorting by Type
+ 
 const renderEquipmentTable = async () => {
     try {
         toggleLoading(true);
@@ -257,6 +248,52 @@ const toggleSortingOrderByType = () => {
 };
 
 // Save or Update Equipment
+// equipmentForm.addEventListener("submit", async (event) => {
+//     event.preventDefault();
+
+//     const equipmentData = {
+//         name: document.getElementById("equipmentName").value,
+//         type: document.getElementById("equipmentType").value,
+//         status: document.getElementById("equipmentStatus").value,
+//         staffId: document.getElementById("staffId").value,
+//         fieldCode: document.getElementById("fieldCode").value,
+//     };
+
+//     try {
+//         if (formMode === "EDIT" && currentEditEquipmentId) {
+//             await updateEquipment(currentEditEquipmentId, equipmentData);
+//             Swal.fire({
+//                 icon: "success",
+//                 title: "Updated!",
+//                 text: "Equipment data has been successfully updated.",
+//                 confirmButtonText: "OK",
+//             });
+//             // Reset form mode after update
+//             formMode = "ADD";
+//             currentEditEquipmentId = null;
+//         } else {
+//             await createEquipment(equipmentData);
+//             Swal.fire({
+//                 icon: "success",
+//                 title: "Saved!",
+//                 text: "Equipment data has been successfully saved.",
+//                 confirmButtonText: "OK",
+//             });
+//         }
+
+//         renderEquipmentTable();
+//         hidePopup();
+//         equipmentForm.reset();
+//     } catch (error) {
+//         console.error("Error saving equipment:", error);
+//         Swal.fire({
+//             icon: "error",
+//             title: "Error",
+//             text: "Failed to save equipment data. Please try again.",
+//             confirmButtonText: "OK",
+//         });
+//     }
+// });
 equipmentForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -266,10 +303,44 @@ equipmentForm.addEventListener("submit", async (event) => {
         status: document.getElementById("equipmentStatus").value,
         staffId: document.getElementById("staffId").value,
         fieldCode: document.getElementById("fieldCode").value,
+        
     };
+
+    // Simple Validation
+    let validationError = false;
+    let errorMessage = "";
+
+    // Check if the required fields are filled
+    if (!equipmentData.name) {
+        validationError = true;
+        errorMessage = "Equipment name is required.";
+    } else if (!equipmentData.type) {
+        validationError = true;
+        errorMessage = "Equipment type is required.";
+    } else if (!equipmentData.status) {
+        validationError = true;
+        errorMessage = "Equipment status is required.";
+    } else if (!equipmentData.staffId) {
+        validationError = true;
+        errorMessage = "Staff ID is required.";
+    } else if (!equipmentData.fieldCode) {
+        validationError = true;
+        errorMessage = "Field code is required.";
+    }  
+
+    if (validationError) {
+        Swal.fire({
+            icon: "error",
+            title: "Validation Error",
+            text: errorMessage,
+            confirmButtonText: "OK",
+        });
+        return; // Stop execution if validation fails
+    }
 
     try {
         if (formMode === "EDIT" && currentEditEquipmentId) {
+            // Update equipment
             await updateEquipment(currentEditEquipmentId, equipmentData);
             Swal.fire({
                 icon: "success",
@@ -281,6 +352,7 @@ equipmentForm.addEventListener("submit", async (event) => {
             formMode = "ADD";
             currentEditEquipmentId = null;
         } else {
+            // Create new equipment
             await createEquipment(equipmentData);
             Swal.fire({
                 icon: "success",
@@ -290,6 +362,7 @@ equipmentForm.addEventListener("submit", async (event) => {
             });
         }
 
+        // Re-render the table and reset the form
         renderEquipmentTable();
         hidePopup();
         equipmentForm.reset();
@@ -303,6 +376,7 @@ equipmentForm.addEventListener("submit", async (event) => {
         });
     }
 });
+
 
 // Edit Equipment
 window.editEquipment = async (equipmentId) => {
