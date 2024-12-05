@@ -169,14 +169,36 @@ const hidePopup = () => {
     popupForm.style.display = "none";
 };
 
+// Function to sort staff based on designation (MANAGER, WORKER, SUPERVISOR, TECHNICIAN)
+// Function to sort staff based on designation (MANAGER, WORKER, SUPERVISOR, TECHNICIAN)
+const sortStaffByDesignation = (staff) => {
+    const designationOrder = ["MANAGER", "SUPERVISOR", "TECHNICIAN", "WORKER"]; // Define the order
+
+    return staff.sort((a, b) => {
+        const designationA = a.designation ? a.designation.trim().toUpperCase() : ""; // Default to empty if missing
+        const designationB = b.designation ? b.designation.trim().toUpperCase() : ""; // Default to empty if missing
+
+        // If designation is not found in the predefined order, place it at the end
+        const indexA = designationOrder.indexOf(designationA) !== -1 ? designationOrder.indexOf(designationA) : designationOrder.length;
+        const indexB = designationOrder.indexOf(designationB) !== -1 ? designationOrder.indexOf(designationB) : designationOrder.length;
+
+        return indexA - indexB; // Compare based on predefined order or move to the end
+    });
+};
+
+
 // Render Staff Table
 const renderStaffTable = async () => {
     try {
         toggleLoading(true);
         const staffList = await getAllStaff();
+
+        // Sort staff based on their designation
+        const sortedStaffList = sortStaffByDesignation(staffList);
+
         staffTableBody.innerHTML = ""; // Clear the table
 
-        staffList.forEach((staff) => {
+        sortedStaffList.forEach((staff) => {
             const row = `
                 <tr>
                     <td>${staff.staffId}</td>
@@ -191,19 +213,14 @@ const renderStaffTable = async () => {
                     <td>${staff.email}</td>
                     <td>${staff.role}</td>
                     <td>
-                     <button class="sview-btn" onclick="viewStaff('${staff.staffId}')" >View</button>
+                        <button class="sview-btn" onclick="viewStaff('${staff.staffId}')">View</button>
                         <button class="sedit-btn" onclick="editStaff('${staff.staffId}')">Edit</button>
                         <button class="sdelete-btn" onclick="deleteStaff('${staff.staffId}')">Delete</button>
-                          <button class="sdownload-btn" onclick="downloadstaffData('${staff.staffId}')">Download</button>
+                        <button class="sdownload-btn" onclick="downloadstaffData('${staff.staffId}')">Download</button>
                     </td>
                 </tr>
             `;
             staffTableBody.innerHTML += row;
-            const viewButton = staffTableBody.querySelector(`button[onclick="viewStaff('${staff.staffId}')"]`);
-            viewButton.style.marginBottom = "5px";
-            viewButton.style.marginLeft = "5px";
-
-             
         });
     } catch (error) {
         console.error("Error loading staff data:", error);
@@ -211,6 +228,13 @@ const renderStaffTable = async () => {
     } finally {
         toggleLoading(false);
     }
+};
+let isSortedAscending = true; // Track the current sorting order
+
+// Function to toggle sorting order and render the table
+const toggleSort = () => {
+    isSortedAscending = !isSortedAscending; // Toggle the sorting order
+    renderStaffTable(); // Re-render the table with the new order
 };
 
 // Save or Update Staff

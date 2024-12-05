@@ -22,6 +22,21 @@
 	#vehicleModal {
     z-index: 999; /* Make sure this is below SweetAlert's z-index */
 }
+
+#imagePreviewContainer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+#imagePreview {
+    display: none;
+    max-width: 100px;
+    max-height: 100px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    object-fit: cover;
+}
  
        
      
@@ -372,10 +387,18 @@
                                         <div class="form-row">
                                             <label for="fieldImage1">Field Image 1</label>
                                             <input type="file" id="fieldImage1" name="fieldImage1" accept="image/*" required />
+											
+											<div id="imagePreviewContainer">
+												<img id="imagePreview1" src="" alt="Image Preview" style="max-width: 100px;" />
+											</div>
                                         </div>
                                         <div class="form-row">
                                             <label for="fieldImage2">Field Image 2</label>
                                             <input type="file" id="fieldImage2" name="fieldImage2" accept="image/*" />
+
+											<div id="imagePreviewContainer">
+												<img id="imagePreview2" src="" alt="Image Preview" style="max-width: 100px;" />
+											</div>
                                         </div>
 										<div class="form-row">
                                             <label for="staffId">staff id</label>

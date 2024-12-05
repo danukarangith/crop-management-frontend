@@ -322,6 +322,14 @@
 								<div class="spinner"></div>
 								<p>Loading...</p>
 							</div>
+							<select id="designationSelector" onchange="renderStaffTable()">
+								<option value="ALL">All Designations</option>
+								<option value="MANAGER">Manager</option>
+								<option value="SUPERVISOR">Supervisor</option>
+								<option value="TECHNICIAN">Technician</option>
+								<option value="WORKER">Worker</option>
+							</select>
+							
 					
                             <div class="table-container">
                                 <table id="staffTable">
