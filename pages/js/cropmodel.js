@@ -14,12 +14,8 @@ let currentEditCropId = null;
 // Create Crop (POST)
 const createCrop = async (cropData) => {
     const token = getToken();
-    const formData = new FormData();
-
-    // Append image and other data to FormData
-    const cropImage = document.getElementById("cropImage").files[0]; // Assuming an <input type="file" id="cropImage">
-    if (cropImage) formData.append('image', cropImage); // Append image file
-    formData.append('cropData', JSON.stringify(cropData)); // Append JSON data
+     
+  // Append JSON data
 
     const headers = {
         "Authorization": `Bearer ${token}`,
@@ -28,40 +24,36 @@ const createCrop = async (cropData) => {
     const response = await fetch(API_BASE_URL, {
         method: "POST",
         headers,
-        body: formData, // Send FormData
+        body: cropData, // Send FormData
     });
 
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
     }
 };
-
-// Update Crop (PATCH)
+//updatecrop
 const updateCrop = async (cropId, cropData) => {
     const token = getToken();
-    const formData = new FormData();
+    try {
+        const response = await fetch(`${API_BASE_URL}/${cropId}`, {
+            method: "PATCH",
+            headers: {
+                "Authorization": `Bearer ${token}`, // Only Authorization, FormData handles Content-Type
+            },
+            body: cropData, // FormData with multipart data
+        });
 
-    // Append image and other data to FormData
-    const cropImage = document.getElementById("cropImage").files[0]; // Assuming an <input type="file" id="cropImage">
-    if (cropImage) formData.append('image', cropImage); // Append image file
-    formData.append('cropData', JSON.stringify(cropData)); // Append JSON data
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`Update failed: ${errorText}`);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-    const headers = {
-        "Authorization": `Bearer ${token}`,
-    };
-
-    const response = await fetch(`${API_BASE_URL}/${cropId}`, {
-        method: "PATCH",
-        headers,
-        body: formData, // Send FormData
-    });
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        
+    } catch (error) {
+        console.error("Error updating crop:", error);
+        throw error;
     }
-
-    const responseBody = await response.text();
-    return responseBody ? JSON.parse(responseBody) : null;
 };
 
 // Get All Crops (GET)
@@ -174,7 +166,7 @@ const renderCropTable = async () => {
                     <td>${crop.cropCode}</td>
                     <td>${crop.cropCommonName}</td>
                     <td>${crop.cropScientificName}</td>
-                    <td><img src="${crop.cropImage}" alt="${crop.cropCommonName}" width="50"></td>
+                    <td><img src="data:image/png;base64,${crop.cropImage}" alt="${crop.cropCommonName}" width="50"></td>
                     <td>${crop.category}</td>
                     <td>${crop.cropSeason}</td>
                     <td>${crop.fieldCode}</td>
@@ -198,17 +190,26 @@ const renderCropTable = async () => {
 cropForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const cropData = {
-        cropCommonName: document.getElementById("cropCommonName").value,
-        cropScientificName: document.getElementById("cropScientificName").value,
-        category: document.getElementById("category").value,
-        cropSeason: document.getElementById("cropSeason").value,
-        fieldCode: document.getElementById("fieldCode").value,
-    };
+    // const cropData = {
+    //     cropCommonName: document.getElementById("cropCommonName").value,
+    //     cropScientificName: document.getElementById("cropScientificName").value,
+    //     category: document.getElementById("category").value,
+    //     cropSeason: document.getElementById("cropSeason").value,
+    //     fieldCode: document.getElementById("fieldCode").value,
+    // };
+
+
+            const formdata = new FormData();
+        formdata.append("cropCommonName",document.getElementById("cropCommonName").value);
+        formdata.append("cropScientificName", document.getElementById("cropScientificName").value);
+        formdata.append("cropImage", document.getElementById("cropImage").files[0],  document.getElementById("cropImage").files[0].name);
+        formdata.append("category",  document.getElementById("category").value);
+        formdata.append("cropSeason",  document.getElementById("cropSeason").value);
+        formdata.append("filedCode", document.getElementById("fieldCode").value);
 
     try {
         if (formMode === "EDIT" && currentEditCropId) {
-            await updateCrop(currentEditCropId, cropData);
+            await updateCrop(currentEditCropId, formdata);
             Swal.fire({
                 icon: 'success',
                 title: 'Updated!',
@@ -216,7 +217,7 @@ cropForm.addEventListener("submit", async (event) => {
                 confirmButtonText: 'OK',
             });
         } else {
-            await createCrop(cropData);
+            await createCrop(formdata);
             Swal.fire({
                 icon: 'success',
                 title: 'Saved!',
@@ -244,14 +245,25 @@ window.editCrop = async (cropId) => {
     try {
         const crop = await getSingleCrop(cropId);
 
+        // Populate form fields
         document.getElementById("cropCommonName").value = crop.cropCommonName || "";
         document.getElementById("cropScientificName").value = crop.cropScientificName || "";
         document.getElementById("category").value = crop.category || "";
         document.getElementById("cropSeason").value = crop.cropSeason || "";
         document.getElementById("fieldCode").value = crop.fieldCode || "";
 
-        // Set image preview
-        document.getElementById("imagePreview").src = crop.cropImage || "";
+        // Reset file input and set image preview
+        const fileInput = document.getElementById("cropImage");
+        fileInput.value = ""; // Clear file input
+
+        const imagePreview = document.getElementById("imagePreview");
+        if (crop.cropImage) {
+            imagePreview.src = `data:image/png;base64,${crop.cropImage}`; // Update preview with base64 image
+            imagePreview.style.display = "block"; // Show preview
+        } else {
+            imagePreview.src = ""; // Clear preview if no image
+            imagePreview.style.display = "none"; // Hide preview element
+        }
 
         showPopup("EDIT", cropId);
     } catch (error) {
@@ -265,15 +277,22 @@ window.editCrop = async (cropId) => {
     }
 };
 
-// Preview uploaded image
+
+
+
 const previewImage = (event) => {
     const reader = new FileReader();
     reader.onload = function () {
         const imagePreview = document.getElementById("imagePreview");
-        imagePreview.src = reader.result;
+        imagePreview.src = reader.result; // Display uploaded image
     };
-    reader.readAsDataURL(event.target.files[0]);
+    if (event.target.files[0]) {
+        reader.readAsDataURL(event.target.files[0]);
+    }
 };
+
+// Attach event listener to the file input
+document.getElementById("cropImage").addEventListener("change", previewImage);
 
 // Event Listeners
 closeModal.addEventListener("click", hidePopup);
