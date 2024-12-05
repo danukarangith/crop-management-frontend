@@ -2,7 +2,7 @@
 
 This repository contains the frontend for the **Crop Management System**, a platform designed to streamline agricultural operations for managing fields, crops, staff, monitoring logs, vehicles, and equipment. The frontend interacts with the backend API to enable efficient management and monitoring for farms.
 
- ![Screenshot from 2024-12-05 20-43-17](https://github.com/user-attachments/assets/5a9989a7-2745-41d8-8715-72aa5034fe70)
+![Screenshot from 2024-12-05 20-44-38](https://github.com/user-attachments/assets/fdb85782-97bb-4815-8cf6-40032f0db7d9)
 
 ## Features
 - **Field Management**: View and manage details of farm fields.
