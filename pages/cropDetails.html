@@ -330,6 +330,7 @@
                                             <th>Date</th>
                                             <th>Log Details</th>
                                             <th>Observed Image</th>
+                                            <th>Actions</th>
                                              
                                             
                                         </tr>
@@ -358,7 +359,7 @@
                                             <label for="observeImage">Observed Image</label>
 											<input type="file" id="observeImage" accept="image/*" required onchange="previewImage(event)" />
 											<div id="imagePreviewContainer">
-												<img id="imagePreview" src="" alt="Image Preview" />
+												<img id="imagePreviewcd" src="" alt="Image Preview" style="max-width: 100px;"/>
                                                <br>
 											</div>
                                              
@@ -396,21 +397,7 @@
 
 
 <script>
-    function previewImage(event) {
-    const imagePreview = document.getElementById('imagePreview');
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            imagePreview.src = e.target.result;
-            imagePreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    } else {
-        imagePreview.src = '';
-        imagePreview.style.display = 'none';
-    }
-}
+   
     // Function to update the date and time dynamically
     function updateDateTime() {
         const dateTimeElement = document.getElementById('dateTime');

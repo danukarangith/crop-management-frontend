@@ -47,8 +47,7 @@ const updateLog = async (logId, logData) => {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const responseBody = await response.json();
-        return responseBody;
+         
     } catch (error) {
         console.error("Error updating log:", error);
         throw error;
@@ -163,7 +162,7 @@ const renderLogTable = async () => {
             const row = `
                 <tr>
                     <td>${log.logCode}</td>
-                    <td>${log.date}</td>
+                    <td>${log.logDate}</td>
                     <td>${log.logDetails}</td>
                     <td><img src="data:image/png;base64,${log.observedImage}" alt="${log.logDetails}" width="50"></td>
                     <td>
@@ -188,10 +187,10 @@ logForm.addEventListener("submit", async (event) => {
 
     const formdata = new FormData();
     formdata.append("logDetails", document.getElementById("logDetails").value);
-    formdata.append("observeImage", document.getElementById("observeImage").files[0], document.getElementById("observeImage").files[0].name);
-    formdata.append("fieldCode", document.getElementById("fieldCode").value);
-    formdata.append("cropCode", document.getElementById("cropCode").value);
-    formdata.append("staffId", document.getElementById("staffId").value);
+    formdata.append("observedImage", document.getElementById("observeImage").files[0], document.getElementById("observeImage").files[0].name);
+    formdata.append("fieldCodes", document.getElementById("fieldCode").value);
+    formdata.append("cropCodes", document.getElementById("cropCode").value);
+    formdata.append("staffIds", document.getElementById("staffId").value);
 
     try {
         if (formMode === "EDIT" && currentEditLogId) {
@@ -233,15 +232,15 @@ window.editLog = async (logId) => {
 
         // Populate form fields
         document.getElementById("logDetails").value = log.logDetails || "";
-        document.getElementById("fieldCode").value = log.fieldCode || "";
-        document.getElementById("cropCode").value = log.cropCode || "";
-        document.getElementById("staffId").value = log.staffId || "";
+        document.getElementById("fieldCode").value = log.fieldCodes || "";
+        document.getElementById("cropCode").value = log.cropCodes || "";
+        document.getElementById("staffId").value = log.staffIds || "";
 
         // Reset file input and set image preview
         const fileInput = document.getElementById("observeImage");
         fileInput.value = ""; // Clear file input
 
-        const imagePreview = document.getElementById("imagePreview");
+        const imagePreview = document.getElementById("imagePreviewcd");
         if (log.observedImage) {
             imagePreview.src = `data:image/png;base64,${log.observedImage}`; // Update preview with base64 image
             imagePreview.style.display = "block"; // Show preview
@@ -266,7 +265,7 @@ window.editLog = async (logId) => {
 const previewImage = (event) => {
     const reader = new FileReader();
     reader.onload = function () {
-        const imagePreview = document.getElementById("imagePreview");
+        const imagePreview = document.getElementById("imagePreviewcd");
         imagePreview.src = reader.result; // Display uploaded image
     };
     if (event.target.files[0]) {
