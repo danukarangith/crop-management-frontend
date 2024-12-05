@@ -191,12 +191,17 @@ const renderStaffTable = async () => {
                     <td>${staff.email}</td>
                     <td>${staff.role}</td>
                     <td>
+                     <button class="view-btn" onclick="viewStaff('${staff.staffId}')" >View</button>
                         <button class="edit-btn" onclick="editStaff('${staff.staffId}')">Edit</button>
                         <button class="delete-btn" onclick="deleteStaff('${staff.staffId}')">Delete</button>
+                          <button class="download-btn" onclick="downloadstaffData('${staff.staffId}')">Download</button>
                     </td>
                 </tr>
             `;
             staffTableBody.innerHTML += row;
+            const viewButton = staffTableBody.querySelector(`button[onclick="viewStaff('${staff.staffId}')"]`);
+            viewButton.style.marginBottom = "5px";
+            viewButton.style.marginLeft = "5px";
         });
     } catch (error) {
         console.error("Error loading staff data:", error);
@@ -299,6 +304,90 @@ window.editStaff = async (staffId) => {
     }
 };
 
+
+// View Vehicle (GET)
+window.viewStaff = async (staffId) => {
+    try {
+        const staff = await getSingleStaff(staffId);
+        
+        // Show detailed information about the vehicle
+        Swal.fire({
+            title: `Staff Details: ${staffId}`,
+            html: `
+                <p><strong>First Name:</strong> ${staff.firstName }</p>
+                <p><strong>Last Name:</strong> ${staff.lastName }</p>
+                <p><strong>Designation:</strong> ${staff.designation }</p>
+                <p><strong>Gender:</strong> ${staff.gender}</p>
+                <p><strong>Joined Date:</strong> ${staff.joinedDate}</p>
+                <p><strong>Date Of Birth:</strong> ${staff.dob}</p>
+                <p><strong>Address:</strong> ${staff.addressLine1 }</p>
+                <p><strong>Contact No:</strong> ${staff.contactNo}</p>
+                <p><strong>Email:</strong> ${staff.email}</p>
+                <p><strong>Role:</strong> ${staff.role }</p>
+            `,
+            confirmButtonText: "Close"
+        });
+    } catch (error) {
+        console.error("Error fetching vehicle data:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to fetch vehicle data. Please try again.",
+            confirmButtonText: "OK"
+        });
+    }
+};
+
+
+// Convert an array of objects (vehicle data) to CSV
+const convertToCSV = (data) => {
+    // Get the headers (keys of the first object)
+    const headers = Object.keys(data[0]);
+    
+    // Create the CSV header row
+    const headerRow = headers.join(",") + "\n";
+    
+    // Map the data rows and join them with commas
+    const dataRows = data.map((row) => {
+        return headers.map((header) => row[header]).join(",");
+    }).join("\n");
+    
+    // Return the complete CSV string
+    return headerRow + dataRows;
+};
+
+
+// Download Vehicle Data for a specific vehicle
+const downloadstaffData = async (staffId) => {
+    try {
+        // Fetch the data for the specific vehicle
+        const staff = await getSingleStaff(staffId);
+
+        // Convert the data to CSV format
+        const csvData = convertToCSV([staff]);  // Wrap the vehicle in an array
+
+        // Create a Blob from the CSV data
+        const blob = new Blob([csvData], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `staff_${staffId}_data.csv`;  // Filename for the downloaded file
+        a.click();
+
+        // Clean up by revoking the URL
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Error generating vehicle data CSV:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to generate CSV for this vehicle. Please try again.",
+            confirmButtonText: "OK",
+        });
+    }
+};
 
 // Event Listeners
 // addStaffBtn.addEventListener("click", showPopup);
