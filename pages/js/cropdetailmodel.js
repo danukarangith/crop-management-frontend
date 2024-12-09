@@ -166,8 +166,10 @@ const renderLogTable = async () => {
                     <td>${log.logDetails}</td>
                     <td><img src="data:image/png;base64,${log.observedImage}" alt="${log.logDetails}" width="50"></td>
                     <td>
+                         <button class="view-btn" onclick="viewLog('${log.logCode}')">View</button>
                         <button class="edit-btn" onclick="editLog('${log.logCode}')">Edit</button>
                         <button class="delete-btn" onclick="deleteLog('${log.logCode}')">Delete</button>
+                          <button class="download-btn" onclick="downloadlogData('${log.logCode}')">Download</button>
                     </td>
                 </tr>
             `;
@@ -270,6 +272,83 @@ const previewImage = (event) => {
     };
     if (event.target.files[0]) {
         reader.readAsDataURL(event.target.files[0]);
+    }
+};
+
+// View Vehicle (GET)
+window.viewLog = async (logId) => {
+    try {
+        const log = await getSingleLog(logId);
+        
+        // Show detailed information about the vehicle
+        Swal.fire({
+            title: `Log Details: ${logId}`,
+            html: `
+                <p><strong>Log Code:</strong> ${log.logCode}</p>
+                <p><strong>Log Date:</strong> ${log.logDate }</p>
+                <p><strong>Log Details:</strong> ${log.logDetails}</p>
+                <p><strong>image:</strong> <img src="data:image/png;base64,${log.observedImage}" alt="${log.logDetails}" width="50"</p>
+                 
+            `,
+            confirmButtonText: "Close"
+        });
+    } catch (error) {
+        console.error("Error fetching vehicle data:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to fetch vehicle data. Please try again.",
+            confirmButtonText: "OK"
+        });
+    }
+};
+
+const convertToCSV = (data) => {
+    // Get the headers (keys of the first object)
+    const headers = Object.keys(data[0]);
+    
+    // Create the CSV header row
+    const headerRow = headers.join(",") + "\n";
+    
+    // Map the data rows and join them with commas
+    const dataRows = data.map((row) => {
+        return headers.map((header) => row[header]).join(",");
+    }).join("\n");
+    
+    // Return the complete CSV string
+    return headerRow + dataRows;
+};
+
+
+// Download Vehicle Data for a specific vehicle
+const downloadlogData = async (logId) => {
+    try {
+        // Fetch the data for the specific vehicle
+        const log = await getSingleLog(logId);
+
+        // Convert the data to CSV format
+        const csvData = convertToCSV([log]);  // Wrap the vehicle in an array
+
+        // Create a Blob from the CSV data
+        const blob = new Blob([csvData], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `log_${logId}_data.csv`;  // Filename for the downloaded file
+        a.click();
+
+        // Clean up by revoking the URL
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Error generating vehicle data CSV:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to generate CSV for this vehicle. Please try again.",
+            confirmButtonText: "OK",
+        });
     }
 };
 

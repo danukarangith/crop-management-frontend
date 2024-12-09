@@ -616,16 +616,14 @@ table th {
 
 /* Select Box Styling */
 #vehicleStatusSelect {
-    background-color: #fff; /* White background */
-    color: #333; /* Dark text color */
+    padding: 8px 12px; /* Add padding for better spacing */
+    font-size: 16px; /* Set the font size */
     border: 1px solid #ccc; /* Light gray border */
-    padding: 10px 15px; /* Padding for spacing */
-    font-size: 14px;
-    font-weight: bolder; /* Font size */
     border-radius: 5px; /* Rounded corners */
-    width: 200px; /* Set fixed width */
-    cursor: pointer; /* Pointer cursor for interaction */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for border and shadow */
+    background-color: #fff; /* White background */
+    color: #333; /* Text color */
+    cursor: pointer; /* Show a pointer cursor when hovering */
+    transition: border-color 0.3s ease; /* Smooth transition for border and shadow */
 }
 
 /* Focused State */
@@ -642,8 +640,9 @@ table th {
 
 /* Option Styling */
 #vehicleStatusSelect option {
-    padding: 10px; /* Add padding to options for better clickability */
-    background-color: #f9f9f9; /* Light gray background for options */
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /* Soft green glow effect */
+    outline: none;  /* Light gray background for options */
 }
 
 /* Option Hover Effect */
@@ -653,15 +652,14 @@ table th {
 
 /* Style for the Equipment Type Selector */
 #equipmentTypeSelector {
-    width: 200px; /* Adjust width as needed */
-    padding: 10px; /* Adds padding for better readability */
-    border-radius: 5px; /* Smooth edges */
-    border: 1px solid #ccc; /* Light border color */
-    font-size: 16px; /* Adjust font size */
+    padding: 8px 12px; /* Add padding for better spacing */
+    font-size: 16px; /* Set the font size */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
     background-color: #fff; /* White background */
-    color: #333; /* Dark text color */
-    cursor: pointer; /* Changes cursor to pointer on hover */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+    color: #333; /* Text color */
+    cursor: pointer; /* Show a pointer cursor when hovering */
+    transition: border-color 0.3s ease;/* Smooth transition */
 }
 
 /* Focus effect when the dropdown is selected */
@@ -672,10 +670,9 @@ table th {
 
 /* Style the dropdown options */
 #equipmentTypeSelector option {
-    padding: 10px; /* Adds padding to each option */
-    font-size: 16px; /* Matches the font size of the dropdown */
-    background-color: #fff; /* White background for options */
-    color: #333; /* Dark text color */
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /* Soft green glow effect */
+    outline: none; /* Dark text color */
 }
 
 /* Hover effect on options */
@@ -738,6 +735,112 @@ td button {
 /* Ensure buttons appear in a line */
 td {
     white-space: nowrap; /* Prevent buttons from wrapping to the next line */
+}
+
+/* Style the select box */
+#sortByDesignation {
+    padding: 8px 12px; /* Add padding for better spacing */
+    font-size: 16px; /* Set the font size */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    color: #333; /* Text color */
+    cursor: pointer; /* Show a pointer cursor when hovering */
+    transition: border-color 0.3s ease;
+}
+
+/* Style the dropdown options */
+#sortByDesignation option {
+    padding: 8px 12px; /* Padding for the option items */
+    font-size: 16px; /* Set font size for options */
+    background-color: #fff; /* White background for options */
+    color: #333; /* Option text color */
+}
+
+/* Add hover effect on options */
+#sortByDesignation option:hover {
+    border-color: #66bb6a;  /* Light hover effect */
+}
+
+/* Add focus effect */
+#sortByDesignation:focus {
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /* Soft green glow effect */
+    outline: none; /* Remove default outline */ /* Focus shadow effect */
+}
+
+
+/* Styling the select element */
+#sizeFilter {
+    width: 200px; /* Set the width of the dropdown */
+    padding: 8px 12px; /* Add padding for better spacing */
+    font-size: 16px; /* Set the font size */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    color: #333; /* Text color */
+    cursor: pointer; /* Show a pointer cursor when hovering */
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+/* Hover and focus effects */
+#sizeFilter:hover,
+#sizeFilter:focus {
+    border-color: #4CAF50;/* Change border color on hover/focus */
+    outline: none; /* Remove the default focus outline */
+}
+
+/* Styling the options */
+#sizeFilter option {
+    padding: 8px 12px; /* Padding for the option items */
+    font-size: 16px; /* Set font size for options */
+    background-color: #fff; /* White background for options */
+    color: #333; /* Text color */
+}
+
+/* Optional: Style the dropdown arrow */
+#sizeFilter::-ms-expand {
+    display: none; /* Hide the default dropdown arrow in IE */
+}
+
+/* Optional: Adding a custom arrow */
+#sizeFilter {
+    -webkit-appearance: none; /* Remove default arrow in WebKit browsers */
+    -moz-appearance: none; /* Remove default arrow in Firefox */
+    appearance: none; /* Remove default arrow */
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"%3E%3Cpath fill="none" stroke="%23333" stroke-width="1" d="M1 1l4 4 4-4"%3E%3C/path%3E%3C/svg%3E'); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Position the custom arrow */
+    background-size: 10px 6px; /* Size of the custom arrow */
+}
+
+
+#sortOption { width: 200px; /* Set the width of the dropdown */
+    padding: 8px 12px; /* Add padding for better spacing */
+    font-size: 16px; /* Set the font size */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    color: #333; /* Text color */
+    cursor: pointer; /* Show a pointer cursor when hovering */
+    transition: border-color 0.3s ease;
+}
+
+#sortOption:hover {
+    border-color: #4CAF50;/* Change border color on hover/focus */
+    outline: none; 
+}
+
+#sortOption:focus {
+    border-color: #4CAF50;/* Change border color on hover/focus */
+    outline: none; 
+}
+
+#sortOption option {
+    padding: 8px 12px; /* Padding for the option items */
+    font-size: 16px; /* Set font size for options */
+    background-color: #fff; /* White background for options */
+    color: #333;
 }
 
 

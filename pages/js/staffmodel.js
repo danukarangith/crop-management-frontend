@@ -104,38 +104,62 @@ const updateStaff = async (staffId, staffData) => {
 };
 
 
-// Delete Staff (DELETE)
+ 
+
 const deleteStaff = async (staffId) => {
-    const token = getToken();
-    const headers = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-    };
-
-    const response = await fetch(`${API_BASE_URL}/${staffId}`, {
-        method: "DELETE",
-        headers,
-    });
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
+    // Show SweetAlert confirmation before deletion
     Swal.fire({
-        icon: 'success',
-        title: 'Deleted!',
-        text: 'Staff has been successfully deleted.',
-        confirmButtonText: 'OK',
-    }).then(() => {
-        renderStaffTable();
+        title: 'Are you sure?',
+        text: 'Do you want to delete this staff member?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it',
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            // If user confirms, proceed with deletion
+            const token = getToken();
+            const headers = {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/${staffId}`, {
+                    method: "DELETE",
+                    headers,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deleted!',
+                    text: 'Staff has been successfully deleted.',
+                    confirmButtonText: 'OK',
+                }).then(() => {
+                    renderStaffTable(); // Refresh the staff table after deletion
+                });
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.message,
+                });
+            }
+        } else {
+            // If user clicks 'No', the alert will be closed and nothing happens
+            Swal.fire({
+                icon: 'info',
+                title: 'Cancelled',
+                text: 'The staff member was not deleted.',
+            });
+        }
     });
-
-  
-
-
-    // const result = await response.json();
-    // return result;
 };
+
 
 // Elements
 const addStaffBtn = document.getElementById("addStaffBtn");
@@ -170,34 +194,76 @@ const hidePopup = () => {
 };
 
 // Function to sort staff based on designation (MANAGER, WORKER, SUPERVISOR, TECHNICIAN)
-// Function to sort staff based on designation (MANAGER, WORKER, SUPERVISOR, TECHNICIAN)
-const sortStaffByDesignation = (staff) => {
-    const designationOrder = ["MANAGER", "SUPERVISOR", "TECHNICIAN", "WORKER"]; // Define the order
+let isSortedAscending = true; // Global variable to track current sorting order
 
-    return staff.sort((a, b) => {
-        const designationA = a.designation ? a.designation.trim().toUpperCase() : ""; // Default to empty if missing
-        const designationB = b.designation ? b.designation.trim().toUpperCase() : ""; // Default to empty if missing
+// Function to sort staff based on designation (with toggle)
+const designationPriorityMap = new Map([
+    ["MANAGER", 1],
+    ["SUPERVISOR", 2],
+    ["TECHNICIAN", 3],
+    ["WORKER", 4],
+]);
 
-        // If designation is not found in the predefined order, place it at the end
-        const indexA = designationOrder.indexOf(designationA) !== -1 ? designationOrder.indexOf(designationA) : designationOrder.length;
-        const indexB = designationOrder.indexOf(designationB) !== -1 ? designationOrder.indexOf(designationB) : designationOrder.length;
+// Function to update priority map dynamically
+const updateDesignationPriority = (selectedDesignation) => {
+    const designations = ["MANAGER", "SUPERVISOR", "TECHNICIAN", "WORKER"];
+    let priority = 1;
 
-        return indexA - indexB; // Compare based on predefined order or move to the end
-    });
+    // Set the selected designation as the highest priority
+    designationPriorityMap.set(selectedDesignation, priority++);
+
+    // Set the remaining designations in order, excluding the selected one
+    for (const designation of designations) {
+        if (designation !== selectedDesignation) {
+            designationPriorityMap.set(designation, priority++);
+        }
+    }
 };
 
+// Function to sort staff by designation with updated priority
+const sortStaffByDesignation = (staffList) => {
+    return staffList.sort((a, b) => {
+        const priorityA = designationPriorityMap.get(a.designation?.toUpperCase()) || Number.MAX_VALUE;
+        const priorityB = designationPriorityMap.get(b.designation?.toUpperCase()) || Number.MAX_VALUE;
+
+        return priorityA - priorityB; // Ascending order based on priority
+    });
+};
+// Event listener for sorting
+document.getElementById("sortByDesignation").addEventListener("click", () => {
+    isSortedAscending = !isSortedAscending; // Toggle sorting order
+    renderStaffTable(); // Re-render the table
+});
+
+
+document.getElementById("sortByDesignation").addEventListener("click", () => {
+    toggleSort(); // Toggle sort order
+});
+
+ 
 
 // Render Staff Table
+// Function to render staff table with dynamic priority
 const renderStaffTable = async () => {
     try {
         toggleLoading(true);
+
+        // Get selected designation from dropdown
+        const selectedDesignation = document.getElementById("sortByDesignation").value;
+
+        // Fetch all staff data
         const staffList = await getAllStaff();
 
-        // Sort staff based on their designation
+        // Update priority map if a specific designation is selected
+        if (selectedDesignation !== "ALL") {
+            updateDesignationPriority(selectedDesignation.toUpperCase());
+        }
+
+        // Sort the staff list based on updated priority
         const sortedStaffList = sortStaffByDesignation(staffList);
 
-        staffTableBody.innerHTML = ""; // Clear the table
-
+        // Clear and populate the table
+        staffTableBody.innerHTML = "";
         sortedStaffList.forEach((staff) => {
             const row = `
                 <tr>
@@ -223,13 +289,19 @@ const renderStaffTable = async () => {
             staffTableBody.innerHTML += row;
         });
     } catch (error) {
-        console.error("Error loading staff data:", error);
-        alert("Failed to load staff data.");
+        console.error("Error rendering staff table:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to load staff data. Please try again.",
+            confirmButtonText: "OK",
+        });
     } finally {
         toggleLoading(false);
     }
 };
-let isSortedAscending = true; // Track the current sorting order
+
+ 
 
 // Function to toggle sorting order and render the table
 const toggleSort = () => {
@@ -238,9 +310,69 @@ const toggleSort = () => {
 };
 
 // Save or Update Staff
+// staffForm.addEventListener("submit", async (event) => {
+//     event.preventDefault();
+
+//     const staffData = {
+//         firstName: document.getElementById("first_name").value,
+//         lastName: document.getElementById("last_name").value,
+//         designation: document.getElementById("designation").value,
+//         gender: document.getElementById("gender").value,
+//         joinedDate: document.getElementById("joined_date").value,
+//         dob: document.getElementById("dob").value,
+//         addressLine1: document.getElementById("address_line1").value,
+//         addressLine2: document.getElementById("address_line2").value,
+//         addressLine3: document.getElementById("address_line3").value,
+//         addressLine4: document.getElementById("address_line4").value,
+//         addressLine5: document.getElementById("address_line5").value,
+//         contactNo: document.getElementById("contact_no").value,
+//         email: document.getElementById("email").value,
+//         role: document.getElementById("role").value,
+//     };
+
+//     try {
+//         if (formMode === "EDIT" && currentEditStaffId) {
+//             // Update existing staff
+//             await updateStaff(currentEditStaffId, staffData);
+//             Swal.fire({
+//                 icon: 'success',
+//                 title: 'Updated!',
+//                 text: 'Staff data has been successfully updated.',
+//                 confirmButtonText: 'OK',
+//             });
+
+//             formMode = "ADD";
+//             currentEditVehicleId = null;
+//         } else {
+//             // Add new staff
+//             await createStaff(staffData);
+//             Swal.fire({
+//                 icon: 'success',
+//                 title: 'Saved!',
+//                 text: 'Staff data has been successfully saved.',
+//                 confirmButtonText: 'OK',
+//             });
+//         }
+
+//         renderStaffTable();
+//         hidePopup();
+//         staffForm.reset();
+//     } catch (error) {
+//         console.error("Error saving staff:", error);
+//         Swal.fire({
+//             icon: 'error',
+//             title: 'Error',
+//             text: 'Failed to save staff data. Please try again.',
+//             confirmButtonText: 'OK',
+//         });
+//     }
+// });
+
+
 staffForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    // Get the form data
     const staffData = {
         firstName: document.getElementById("first_name").value,
         lastName: document.getElementById("last_name").value,
@@ -258,6 +390,70 @@ staffForm.addEventListener("submit", async (event) => {
         role: document.getElementById("role").value,
     };
 
+    // Simple validation: Check if all required fields are filled
+    for (let key in staffData) {
+        if (!staffData[key]) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Validation Error',
+                text: `Please fill in the ${key.replace(/([A-Z])/g, ' $1').toLowerCase()}.`,
+                confirmButtonText: 'OK',
+            });
+            return; // Stop further execution if validation fails
+        }
+    }
+
+    // Additional validation for specific fields
+
+    // Check for a valid email format
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(staffData.email)) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Validation Error',
+            text: 'Please provide a valid email address.',
+            confirmButtonText: 'OK',
+        });
+        return;
+    }
+
+    // Check for a valid phone number (numbers only)
+    const phonePattern = /^[0-9]{10}$/; // Assuming a 10-digit phone number
+    if (!phonePattern.test(staffData.contactNo)) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Validation Error',
+            text: 'Please provide a valid 10-digit contact number.',
+            confirmButtonText: 'OK',
+        });
+        return;
+    }
+
+    // Check if the date of birth is not in the future
+    const dobDate = new Date(staffData.dob);
+    const today = new Date();
+    if (dobDate > today) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Validation Error',
+            text: 'Date of birth cannot be in the future.',
+            confirmButtonText: 'OK',
+        });
+        return;
+    }
+
+    // Check if the joined date is not in the future
+    const joinedDate = new Date(staffData.joinedDate);
+    if (joinedDate > today) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Validation Error',
+            text: 'Joined date cannot be in the future.',
+            confirmButtonText: 'OK',
+        });
+        return;
+    }
+
     try {
         if (formMode === "EDIT" && currentEditStaffId) {
             // Update existing staff
@@ -270,7 +466,7 @@ staffForm.addEventListener("submit", async (event) => {
             });
 
             formMode = "ADD";
-            currentEditVehicleId = null;
+            currentEditStaffId = null;
         } else {
             // Add new staff
             await createStaff(staffData);
@@ -295,6 +491,7 @@ staffForm.addEventListener("submit", async (event) => {
         });
     }
 });
+
     
 window.editStaff = async (staffId) => {
     try {
@@ -419,6 +616,8 @@ const downloadstaffData = async (staffId) => {
 // addStaffBtn.addEventListener("click", showPopup);
 closeModal.addEventListener("click", hidePopup);
 cancelBtn.addEventListener("click", hidePopup);
-
+document.getElementById("sortByDesignation").addEventListener("change", renderStaffTable);
+// Event listener to trigger sorting (attach to a sort button or column header)
+document.getElementById("sortByDesignation").addEventListener("click", toggleSort);
 // Load table data on page load
 document.addEventListener("DOMContentLoaded", renderStaffTable);

@@ -321,6 +321,10 @@
 								<div class="spinner"></div>
 								<p>Loading...</p>
 							</div>
+							<select id="sortOption">
+								<option value="asc">Sort A-Z</option>
+								<option value="desc">Sort Z-A</option>
+							</select>
 					
                             <div class="table-container">
                                 <table id="cropTable">
@@ -353,11 +357,11 @@
                                          
                                         <div class="form-row">
                                             <label for="firstName">Common Name</label>
-                                            <input type="text" id="cropCommonName" name="cropCommonName" required>
+                                            <input type="text" id="cropCommonName" name="cropCommonName" >
                                         </div>
                                         <div class="form-row">
                                             <label for="lastName">Scientific Name</label>
-                                            <input type="text" id="cropScientificName" name="cropScientificName" required>
+                                            <input type="text" id="cropScientificName" name="cropScientificName" >
                                         </div>
                                         <div class="form-row">
                                             <label for="cropimage">Crop Image</label>

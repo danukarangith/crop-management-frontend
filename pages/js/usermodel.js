@@ -92,14 +92,14 @@ const updateUser = async (userId, userData) => {
 };
 
 // Delete User (DELETE)
-const deleteUser = async (userId) => {
+const deleteUser = async (email) => {
     const token = getToken();
     const headers = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
     };
 
-    const response = await fetch(`${API_BASE_URL}/${userId}`, {
+    const response = await fetch(`${API_BASE_URL}/${email}`, {
         method: "DELETE",
         headers,
     });

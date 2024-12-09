@@ -341,13 +341,19 @@
 								<div class="spinner"></div>
 								<p>Loading...</p>
 							</div>
+							<select id="sizeFilter" onchange="filterByExtendSize()">
+								<option value="all">All</option>
+								<option value="1600+">1600+Perch</option>
+								<option value="1600-">1600-Perch</option>
+								<!-- Add more options if needed -->
+							</select>
 					
                             <div class="table-container">
                                 <table id="staffTable">
                                     <thead>
                                         <tr>
                                             <th>Field Id</th>
-                                            <th>Extend Size</th>
+                                            <th>Extend Size (Perch)</th>
                                             <th>Field Image 1</th>
                                             <th>Field Image 2</th>
                                             <th>Field Location</th>
@@ -373,7 +379,7 @@
                                         
                                         <div class="form-row">
                                             <label for="fieldName">Field Name</label>
-                                            <input type="text" id="fieldName" name="fieldName" required />
+                                            <input type="text" id="fieldName" name="fieldName"  />
                                         </div>
                                         <div class="form-row">
                                             <label for="extendSize">Field Extend Size (in acres)</label>
