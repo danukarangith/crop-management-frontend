@@ -91,32 +91,7 @@ const updateVehicle = async (vehicleId, vehicleData) => {
     }
 };
 
-// Delete Vehicle (DELETE)
-// const deleteVehicle = async (vehicleId) => {
-//     const token = getToken();
-//     const headers = {
-//         "Content-Type": "application/json",
-//         "Authorization": `Bearer ${token}`,
-//     };
-
-//     const response = await fetch(`${API_BASE_URL}/${vehicleId}`, {
-//         method: "DELETE",
-//         headers,
-//     });
-
-//     if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-
-//     Swal.fire({
-//         icon: "success",
-//         title: "Deleted!",
-//         text: "Vehicle has been successfully deleted.",
-//         confirmButtonText: "OK",
-//     }).then(() => {
-//         renderVehicleTable();
-//     });
-// };
+ 
 
 
 const deleteVehicle = async (vehicleId) => {
