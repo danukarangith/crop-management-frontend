@@ -185,40 +185,7 @@ const hidePopup = () => {
     popupForm.style.display = "none";
 };
 
-// Render Crop Table
-// const renderCropTable = async () => {
-//     try {
-//         toggleLoading(true);
-//         const cropsList = await getAllCrops();
-//         cropTableBody.innerHTML = "";
-
-//         cropsList.forEach((crop) => {
-//             const row = `
-//                 <tr>
-//                     <td>${crop.cropCode}</td>
-//                     <td>${crop.cropCommonName}</td>
-//                     <td>${crop.cropScientificName}</td>
-//                     <td><img src="data:image/png;base64,${crop.cropImage}" alt="${crop.cropCommonName}" width="50"></td>
-//                     <td>${crop.category}</td>
-//                     <td>${crop.cropSeason}</td>
-//                     <td>${crop.fieldCode}</td>
-//                     <td>
-//                          <button class="view-btn" onclick="viewCrop('${crop.cropCode}')">View</button>
-//                         <button class="edit-btn" onclick="editCrop('${crop.cropCode}')">Edit</button>
-//                         <button class="delete-btn" onclick="deleteCrop('${crop.cropCode}')">Delete</button>
-//                         <button class="download-btn" onclick="downloadcropData('${crop.cropCode}')">Download</button>
-//                     </td>
-//                 </tr>
-//             `;
-//             cropTableBody.innerHTML += row;
-//         });
-//     } catch (error) {
-//         console.error("Error loading crop data:", error);
-//         alert("Failed to load crop data.");
-//     } finally {
-//         toggleLoading(false);
-//     }
-// };
+ 
 
 // Render Crop Table with Sorting
 const renderCropTable = async () => {
