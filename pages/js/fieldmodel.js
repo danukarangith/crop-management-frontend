@@ -272,54 +272,7 @@ const renderFieldTable = async () => {
 };
 
 
-// Save or Update Field
-// fieldForm.addEventListener("submit", async (event) => {
-//     event.preventDefault();
-//     let location=document.getElementById("fieldLocation").value 
-//     const [latitude, longitude] = location.split(',').map(coord => coord.trim());
-    
-
-//     const formdata = new FormData();
-//     formdata.append("fieldName", document.getElementById("fieldName").value);
-//     formdata.append("extentSize", document.getElementById("extendSize").value);
-//     formdata.append("longitude",longitude);
-//     formdata.append("latitude",  latitude);
-//     formdata.append("fieldImage1", document.getElementById("fieldImage1").files[0],document.getElementById("fieldImage1").files[0].name);
-//     formdata.append("fieldImage2", document.getElementById("fieldImage2").files[0],document.getElementById("fieldImage2").files[0].name);
-//     formdata.append("staffIds", document.getElementById("staffId").value);
-
-//     try {
-//         if (formMode === "EDIT" && currentEditFieldId) {
-//             await updateField(currentEditFieldId, formdata);
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Updated!',
-//                 text: 'Field data has been successfully updated.',
-//                 confirmButtonText: 'OK',
-//             });
-//         } else {
-//             await createField(formdata);
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Saved!',
-//                 text: 'Field data has been successfully saved.',
-//                 confirmButtonText: 'OK',
-//             });
-//         }
-
-//         renderFieldTable();
-//         hidePopup();
-//         fieldForm.reset();
-//     } catch (error) {
-//         console.error("Error saving field:", error);
-//         Swal.fire({
-//             icon: 'error',
-//             title: 'Error',
-//             text: 'Failed to save field data. Please try again.',
-//             confirmButtonText: 'OK',
-//         });
-//     }
-// });
+ 
 
 
 fieldForm.addEventListener("submit", async (event) => {
