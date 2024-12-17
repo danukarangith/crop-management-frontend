@@ -309,64 +309,7 @@ const toggleSort = () => {
     renderStaffTable(); // Re-render the table with the new order
 };
 
-// Save or Update Staff
-// staffForm.addEventListener("submit", async (event) => {
-//     event.preventDefault();
-
-//     const staffData = {
-//         firstName: document.getElementById("first_name").value,
-//         lastName: document.getElementById("last_name").value,
-//         designation: document.getElementById("designation").value,
-//         gender: document.getElementById("gender").value,
-//         joinedDate: document.getElementById("joined_date").value,
-//         dob: document.getElementById("dob").value,
-//         addressLine1: document.getElementById("address_line1").value,
-//         addressLine2: document.getElementById("address_line2").value,
-//         addressLine3: document.getElementById("address_line3").value,
-//         addressLine4: document.getElementById("address_line4").value,
-//         addressLine5: document.getElementById("address_line5").value,
-//         contactNo: document.getElementById("contact_no").value,
-//         email: document.getElementById("email").value,
-//         role: document.getElementById("role").value,
-//     };
-
-//     try {
-//         if (formMode === "EDIT" && currentEditStaffId) {
-//             // Update existing staff
-//             await updateStaff(currentEditStaffId, staffData);
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Updated!',
-//                 text: 'Staff data has been successfully updated.',
-//                 confirmButtonText: 'OK',
-//             });
-
-//             formMode = "ADD";
-//             currentEditVehicleId = null;
-//         } else {
-//             // Add new staff
-//             await createStaff(staffData);
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Saved!',
-//                 text: 'Staff data has been successfully saved.',
-//                 confirmButtonText: 'OK',
-//             });
-//         }
-
-//         renderStaffTable();
-//         hidePopup();
-//         staffForm.reset();
-//     } catch (error) {
-//         console.error("Error saving staff:", error);
-//         Swal.fire({
-//             icon: 'error',
-//             title: 'Error',
-//             text: 'Failed to save staff data. Please try again.',
-//             confirmButtonText: 'OK',
-//         });
-//     }
-// });
+ 
 
 
 staffForm.addEventListener("submit", async (event) => {
