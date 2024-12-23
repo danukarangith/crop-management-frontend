@@ -184,41 +184,7 @@ const hidePopup = () => {
     popupForm.style.display = "none";
 };
 
-// Render Vehicle Table
-// const renderVehicleTable = async () => {
-//     try {
-//         toggleLoading(true);
-//         const vehicleList = await getAllVehicles();
-//         vehicleTableBody.innerHTML = ""; // Clear the table
-
-//         vehicleList.forEach((vehicle) => {
-//             const row = `
-//                 <tr>
-//                     <td>${vehicle.vehicleCode}</td>
-//                     <td>${vehicle.fuelType}</td>
-//                     <td>${vehicle.licensePlateNumber}</td>
-//                     <td>${vehicle.remarks}</td>
-//                     <td>${vehicle.status}</td>
-//                     <td>${vehicle.vehicleCategory}</td>
-//                     <td>${vehicle.staffId}</td>
-//                     <td>
-//                          <button class="view-btn" onclick="viewVehicle('${vehicle.vehicleCode}')">View</button>
-//                         <button class="edit-btn" onclick="editVehicle('${vehicle.vehicleCode}')">Edit</button>
-//                         <button class="delete-btn" onclick="deleteVehicle('${vehicle.vehicleCode}')">Delete</button>
-//                          <button class="download-btn" onclick="downloadVehicleData('${vehicle.vehicleCode}')">Download</button>
-//                     </td>
-//                 </tr>
-//             `;
-//             vehicleTableBody.innerHTML += row;
-//         });
-//     } catch (error) {
-//         console.error("Error loading vehicle data:", error);
-//         alert("Failed to load vehicle data.");
-//     } finally {
-//         toggleLoading(false);
-//     }
-// };
-
+ 
 // Sort vehicles by vehicleType
 // Sort vehicles by status (Active first, then Non-Active)
 let isActiveFirst = true; // Declare this variable globally
